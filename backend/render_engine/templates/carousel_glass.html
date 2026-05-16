@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px; height: 1080px;
+    font-family: {{ font_family | default("'Inter', sans-serif") }};
+    padding: 0;
+    background: linear-gradient(145deg,
+      {{ brand_color_primary | default("#1a0533") }} 0%,
+      #0f0a1e 30%,
+      #0a0a18 60%,
+      {{ brand_color_secondary | default("#0d1a2e") }} 100%);
+    color: #e6e6e6;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── Animated Orbs ── */
+  .orb {
+    position: absolute; border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+  }
+  .orb-1 {
+    width: 500px; height: 500px;
+    top: -100px; right: -100px;
+    background: {{ brand_color_primary | default("#e94560") }}20;
+  }
+  .orb-2 {
+    width: 400px; height: 400px;
+    bottom: -80px; left: -80px;
+    background: #6366f120;
+  }
+  .orb-3 {
+    width: 300px; height: 300px;
+    top: 40%; left: 50%;
+    background: #3b82f610;
+  }
+
+  /* ── Glass Card ── */
+  .glass-card {
+    position: absolute;
+    top: 60px; left: 60px; right: 60px; bottom: 60px;
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 70px 60px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    z-index: 5;
+  }
+
+  /* ── Slide Counter ── */
+  .slide-counter {
+    position: absolute; top: 32px; right: 36px;
+    font-size: 13px; font-weight: 500;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 2px;
+  }
+
+  /* ── Tag ── */
+  .tag {
+    display: inline-flex; align-items: center;
+    padding: 8px 20px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: {{ brand_color_primary | default("#e94560") }};
+    margin-bottom: 32px;
+    align-self: flex-start;
+  }
+
+  /* ── Headline ── */
+  .headline {
+    font-size: 46px; font-weight: 800;
+    line-height: 1.12;
+    color: #ffffff;
+    margin-bottom: 28px;
+    letter-spacing: -0.5px;
+    max-width: 800px;
+  }
+
+  /* ── Glow Divider ── */
+  .glow-divider {
+    width: 64px; height: 2px;
+    background: linear-gradient(90deg,
+      {{ brand_color_primary | default("#e94560") }},
+      {{ brand_color_primary | default("#e94560") }}00);
+    margin: 24px 0;
+    box-shadow: 0 0 12px {{ brand_color_primary | default("#e94560") }}44;
+  }
+
+  /* ── Body ── */
+  .body-text {
+    font-size: 21px; line-height: 1.75;
+    color: rgba(255,255,255,0.55);
+    max-width: 750px;
+    font-weight: 400;
+  }
+
+  /* ── Bullet Points ── */
+  .bullet-list {
+    list-style: none;
+    margin-top: 20px;
+  }
+  .bullet-list li {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 12px 0;
+    font-size: 19px; line-height: 1.5;
+    color: rgba(255,255,255,0.65);
+  }
+  .bullet-icon {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: {{ brand_color_primary | default("#e94560") }}22;
+    border: 1px solid {{ brand_color_primary | default("#e94560") }}44;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    color: {{ brand_color_primary | default("#e94560") }};
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  /* ── Footer ── */
+  .card-footer {
+    position: absolute; bottom: 32px; left: 36px; right: 36px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .card-footer-handle {
+    font-size: 13px; font-weight: 500;
+    color: rgba(255,255,255,0.3);
+  }
+  .card-footer-swipe {
+    font-size: 11px; font-weight: 500;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── CTA Variant ── */
+  .is-cta .glass-card {
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+  .is-cta .headline { text-align: center; }
+  .is-cta .body-text { text-align: center; margin: 0 auto; }
+  .is-cta .tag { align-self: center; }
+  .cta-glow {
+    margin-top: 32px;
+    padding: 16px 40px;
+    background: {{ brand_color_primary | default("#e94560") }};
+    color: #fff;
+    font-size: 15px; font-weight: 600;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px {{ brand_color_primary | default("#e94560") }}44;
+  }
+</style>
+</head>
+<body class="{% if slide_number == total_slides %}is-cta{% endif %}">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="glass-card">
+    <div class="slide-counter">{{ slide_number }}/{{ total_slides }}</div>
+
+    {% if topic_pillar %}
+    <div class="tag">{{ topic_pillar }}</div>
+    {% endif %}
+
+    <h1 class="headline">{{ slide_headline }}</h1>
+
+    {% if slide_body %}
+    <div class="glow-divider"></div>
+    <p class="body-text">{{ slide_body }}</p>
+    {% endif %}
+
+    {% if slide_number == total_slides and cta_text %}
+    <div class="cta-glow">{{ cta_text | default("Follow for more") }}</div>
+    {% endif %}
+
+    <div class="card-footer">
+      <span class="card-footer-handle">@{{ handle | default("ahmad") }}</span>
+      <span class="card-footer-swipe">Swipe →</span>
+    </div>
+  </div>
+</body>
+</html>

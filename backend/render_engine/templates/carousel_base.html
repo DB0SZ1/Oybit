@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px; height: 1080px;
+    font-family: {{ font_family | default("'Inter', sans-serif") }};
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 80px;
+    background: linear-gradient(135deg, {{ brand_color_primary | default("#1a1a2e") }}, {{ brand_color_secondary | default("#16213e") }});
+    color: #ffffff;
+  }
+  .slide-number { position: absolute; top: 40px; right: 40px; font-size: 18px; opacity: 0.6; }
+  .headline { font-size: 48px; font-weight: 700; line-height: 1.2; margin-bottom: 30px; text-align: center; }
+  .body-text { font-size: 28px; line-height: 1.6; text-align: center; opacity: 0.9; }
+</style>
+</head>
+<body>
+  <div class="slide-number">{{ slide_number }}/{{ total_slides }}</div>
+  <h1 class="headline">{{ slide_headline }}</h1>
+  <p class="body-text">{{ slide_body }}</p>
+</body>
+</html>
