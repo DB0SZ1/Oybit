@@ -1,3 +1,12 @@
+---
+title: Oybit
+emoji: 🚀
+colorFrom: red
+colorTo: red
+sdk: docker
+pinned: false
+---
+
 # Oybit: Autonomous Content Swarm & Rendering Engine
 
 **Oybit** is a production-grade, unsupervised content generation and rendering engine designed to operate as an autonomous "ghostwriter" and digital designer for founders, agencies, and brands. 
