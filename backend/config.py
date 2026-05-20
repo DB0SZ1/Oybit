@@ -4,6 +4,18 @@ Oybit configuration — loads environment variables.
 import os
 from datetime import datetime
 import pytz
+from dotenv import load_dotenv
+
+# Load .env from project root (one level up from backend/)
+_project_root_env = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+_docker_env = '/app/.env'
+
+if os.path.exists(_project_root_env):
+    load_dotenv(_project_root_env, override=True)
+elif os.path.exists(_docker_env):
+    load_dotenv(_docker_env, override=True)
+else:
+    load_dotenv(override=True)
 
 # Timezone Configuration (GAPs)
 STORAGE_TIMEZONE = pytz.UTC
