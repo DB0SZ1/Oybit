@@ -126,7 +126,11 @@ def start_worker():
     logger.info("Opportunity Worker started")
     update_heartbeat("ok")
     
-    # Run once immediately
+    # Wait for MiroFish worker to populate narratives before first detection
+    logger.info("Waiting 120s for MiroFish to populate narratives before first run...")
+    time.sleep(120)
+    
+    # Run once after delay
     run_opportunity_job()
     
     # Schedule to run every 4 hours

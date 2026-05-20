@@ -104,7 +104,7 @@ def _fetch_reddit_posts(subreddits: list = None, limit: int = 10) -> list:
         subreddits = ["webdev", "SideProject", "startups", "entrepreneur"]
     
     documents = []
-    headers = {"User-Agent": "Oybit/1.0 (content intelligence)"}
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"}
     
     for sub in subreddits:
         try:

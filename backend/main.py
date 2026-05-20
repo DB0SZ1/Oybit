@@ -139,9 +139,10 @@ def _start_background_workers():
         logger.error(f"Error while setting up background workers: {e}")
 
 
+@app.get("/")
 @app.get("/health")
 def root_health_check():
-    return {"status": "healthy"}
+    return {"status": "healthy", "service": "oybit", "version": "1.0.0"}
 
 
 def _bootstrap_persona(path: str):

@@ -117,7 +117,7 @@ def _get_ai_reactions(agents_batch: list, narrative_text: str, platform: str) ->
         return reactions
 
     except Exception as e:
-        logger.warning("AI reaction generation failed — falling back to heuristic", extra={"error": str(e)})
+        logger.error("AI reaction generation failed — falling back to heuristic", exc_info=True, extra={"error": str(e)})
         return []
 
 
