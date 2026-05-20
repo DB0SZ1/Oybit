@@ -88,8 +88,9 @@ def start_keep_alive_worker():
     import os
     logger.info("Keep-alive worker started")
     
-    # Use the public Render URL if deployed, otherwise fallback to localhost
-    url = os.getenv("RENDER_EXTERNAL_URL", "http://localhost:8000")
+    # Use the public Render URL if deployed, or Hugging Face Spaces port, otherwise fallback to localhost:8000
+    port = "7860" if os.getenv("SPACE_ID") else "8000"
+    url = os.getenv("RENDER_EXTERNAL_URL", f"http://127.0.0.1:{port}")
     
     # Render sleeps after 15 minutes of inactivity. We ping every 10 minutes (600s)
     while True:
@@ -203,7 +204,7 @@ The primary goal of this content engine is to build extreme credibility and driv
 4. **The "Zero-to-One" African Narrative**
    - Leverage the unique position of building deep tech from Abuja.
    - Do not ask for sympathy; command respect through sheer technical competence.
-   - Contrast local constraints (e.g., power cuts, internet) with world-class engineering outputs to create an underdog narrative that investors and tech peers love.
+   - Let the quality of the engineering speak for itself — no need to frame location as a disadvantage.
 
 5. **Format Diversity Matrix**
    - Mondays/Tuesdays: Deep technical text + diagram (LinkedIn)

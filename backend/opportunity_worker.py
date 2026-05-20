@@ -52,6 +52,21 @@ def _select_format(account: str) -> str:
         return random.choices(["text", "carousel", "text"], weights=[0.6, 0.2, 0.2])[0]
     return "text"
 
+MAX_POSTS_PER_DAY_PER_ACCOUNT = 5
+
+
+def _get_today_post_count(db, account: str) -> int:
+    """Count how many posts have already been created today for this account."""
+    from backend.db.models import Post
+    from datetime import date
+    today_start = datetime.combine(date.today(), datetime.min.time())
+    count = db.query(Post).filter(
+        Post.account == account,
+        Post.created_at >= today_start
+    ).count()
+    return count
+
+
 def run_opportunity_job():
     logger.info("Starting opportunity detection job...")
     try:
@@ -70,11 +85,17 @@ def run_opportunity_job():
                     results = detect_opportunities(narratives)
                     logger.info(f"Detected {len(results)} opportunities from {len(narratives)} narratives")
                     
-                    # Process all detected opportunities
+                    # Process opportunities, respecting the daily cap per account
                     for brief in results:
                         for account in brief.target_accounts:
+                            # Check daily limit before generating
+                            today_count = _get_today_post_count(db, account)
+                            if today_count >= MAX_POSTS_PER_DAY_PER_ACCOUNT:
+                                logger.info(f"Skipping {account} — already hit daily cap ({today_count}/{MAX_POSTS_PER_DAY_PER_ACCOUNT})")
+                                continue
+                            
                             fmt = _select_format(account)
-                            logger.info(f"Triggering pipeline for {account} ({fmt}): {brief.topic}")
+                            logger.info(f"Triggering pipeline for {account} ({fmt}): {brief.topic} [{today_count + 1}/{MAX_POSTS_PER_DAY_PER_ACCOUNT}]")
                             try:
                                 run_full_pipeline(
                                     db=db,

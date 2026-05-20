@@ -24,7 +24,10 @@ if not is_sqlite:
     }
 else:
     engine_kwargs = {
-        "connect_args": {"check_same_thread": False}
+        "connect_args": {
+            "check_same_thread": False,
+            "timeout": 15
+        }
     }
 
 try:

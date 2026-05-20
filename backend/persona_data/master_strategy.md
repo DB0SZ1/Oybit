@@ -52,7 +52,7 @@ Build undeniable technical authority and drive high-value inbound leads for C0DE
 | Brand IG | 50% | 50% |
 | Brand FB | 70% | 30% |
 
-Leverage the "Underdog but Elite" narrative — building from Abuja, shipping globally.
+Focus on quality of work and results — location is context, not a selling point.
 
 ---
 

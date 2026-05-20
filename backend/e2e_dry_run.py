@@ -7,6 +7,9 @@ import os
 import logging
 from datetime import datetime
 from sqlalchemy.orm import Session
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Setup logging before importing backend modules
 logging.basicConfig(
