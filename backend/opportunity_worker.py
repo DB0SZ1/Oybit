@@ -144,12 +144,14 @@ def start_worker():
     
     # Run once after delay
     run_opportunity_job()
+    # Create isolated scheduler
+    scheduler = schedule.Scheduler()
     
     # Schedule to run every 4 hours
-    schedule.every(4).hours.do(run_opportunity_job)
+    scheduler.every(4).hours.do(run_opportunity_job)
     
     while True:
-        schedule.run_pending()
+        scheduler.run_pending()
         time.sleep(60)
 
 

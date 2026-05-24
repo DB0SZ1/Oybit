@@ -89,12 +89,14 @@ def start_worker():
     
     # Run once immediately
     run_reply_job()
+    # Create isolated scheduler
+    scheduler = schedule.Scheduler()
     
     # Schedule to run every 15 minutes
-    schedule.every(15).minutes.do(run_reply_job)
+    scheduler.every(15).minutes.do(run_reply_job)
     
     while True:
-        schedule.run_pending()
+        scheduler.run_pending()
         time.sleep(60)
 
 

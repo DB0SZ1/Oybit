@@ -56,12 +56,14 @@ def start_worker():
     
     # Run once immediately
     run_analytics_job()
+    # Create isolated scheduler
+    scheduler = schedule.Scheduler()
     
     # Schedule to run every 6 hours
-    schedule.every(6).hours.do(run_analytics_job)
+    scheduler.every(6).hours.do(run_analytics_job)
     
     while True:
-        schedule.run_pending()
+        scheduler.run_pending()
         time.sleep(60)
 
 

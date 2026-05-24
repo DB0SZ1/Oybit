@@ -55,12 +55,14 @@ def start_worker():
     
     # Run once immediately
     run_trend_job()
+    # Create isolated scheduler
+    scheduler = schedule.Scheduler()
     
     # Schedule to run every hour
-    schedule.every(1).hours.do(run_trend_job)
+    scheduler.every(1).hours.do(run_trend_job)
     
     while True:
-        schedule.run_pending()
+        scheduler.run_pending()
         time.sleep(60)
 
 

@@ -59,12 +59,14 @@ def start_worker():
     
     # Run once immediately
     run_feedback_job()
+    # Create isolated scheduler
+    scheduler = schedule.Scheduler()
     
     # Schedule to run weekly on Sunday at 2 AM
-    schedule.every().sunday.at("02:00").do(run_feedback_job)
+    scheduler.every().sunday.at("02:00").do(run_feedback_job)
     
     while True:
-        schedule.run_pending()
+        scheduler.run_pending()
         time.sleep(60)
 
 

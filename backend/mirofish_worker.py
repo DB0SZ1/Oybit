@@ -55,12 +55,14 @@ def start_worker():
     
     # Run once immediately
     run_mirofish_job()
+    # Create isolated scheduler
+    scheduler = schedule.Scheduler()
     
     # Schedule to run daily at 5 AM WAT (which is 4 AM UTC)
-    schedule.every().day.at("04:00").do(run_mirofish_job)
+    scheduler.every().day.at("04:00").do(run_mirofish_job)
     
     while True:
-        schedule.run_pending()
+        scheduler.run_pending()
         time.sleep(60)
 
 
