@@ -27,8 +27,8 @@ import httpx
 logger = logging.getLogger(__name__)
 
 MIROFISH_URL = os.getenv("MIROFISH_API_URL", "http://localhost:5001")
-POLL_INTERVAL = 5  # seconds between status polls
-MAX_WAIT_SECONDS = 600  # 10 minutes max for any single stage
+POLL_INTERVAL = 2  # seconds between status polls
+MAX_WAIT_SECONDS = 300  # 5 minutes max for any single stage
 
 
 class MiroFishClient:
@@ -296,6 +296,7 @@ class MiroFishClient:
 
     async def _poll_prepare(self, simulation_id: str, task_id: str):
         """Poll the simulation prepare task until ready."""
+        await asyncio.sleep(3) # 3s grace delay to avoid 404 race on task not registered yet
         elapsed = 0
         while elapsed < MAX_WAIT_SECONDS:
             await asyncio.sleep(POLL_INTERVAL)
@@ -324,9 +325,12 @@ class MiroFishClient:
     async def _poll_simulation_run(self, simulation_id: str):
         """Poll simulation run status until completed."""
         elapsed = 0
+        current_interval = POLL_INTERVAL
         while elapsed < MAX_WAIT_SECONDS:
-            await asyncio.sleep(POLL_INTERVAL)
-            elapsed += POLL_INTERVAL
+            await asyncio.sleep(current_interval)
+            elapsed += current_interval
+            # Exponential backoff up to 30 seconds
+            current_interval = min(current_interval * 1.5, 30.0)
 
             async with httpx.AsyncClient(timeout=15) as c:
                 r = await c.get(
@@ -336,8 +340,12 @@ class MiroFishClient:
                 body = r.json()
 
             data = body.get("data", {})
-            status = data.get("status", "")
-            logger.info(f"MiroFish simulation run: {status}")
+            # SimulationState.to_simple_dict() in MiroFish returns it directly as `status` or nested.
+            status = data.get("runner_status", data.get("status", ""))
+            if isinstance(status, dict):
+                status = status.get("value", str(status)) # In case it's serialized differently
+            
+            logger.info(f"MiroFish simulation run: status={status} (data={data})")
 
             if status in ("completed", "stopped"):
                 return
@@ -455,7 +463,7 @@ Goal: Build credibility, drive inbound, demonstrate technical competence
         project_id=project_id,
         graph_id=graph_id,
         enable_twitter=True,
-        enable_reddit=True,
+        enable_reddit=False, # Twitter-only for gate checks
     )
     logger.info(f"MiroFish: simulation created → {simulation_id}")
 
@@ -475,7 +483,29 @@ Goal: Build credibility, drive inbound, demonstrate technical competence
     report = await client.get_report(report_id)
 
     # Parse gate decision from report
-    return _parse_gate_decision(report, report_id, simulation_id)
+    gate_decision = _parse_gate_decision(report, report_id, simulation_id)
+    
+    # Save the run to the database
+    try:
+        from backend.db.session import SessionLocal
+        from backend.db.models import MiroFishRun
+        import json
+        db = SessionLocal()
+        run = MiroFishRun(
+            simulation_id=simulation_id,
+            project_id=project_id,
+            status="completed",
+            narratives=gate_decision.get("agent_reactions", []),
+            metrics={"sentiment_summary": gate_decision.get("sentiment_summary")},
+            raw_report=report
+        )
+        db.add(run)
+        db.commit()
+        db.close()
+    except Exception as e:
+        logger.error(f"Failed to persist MiroFishRun to DB: {e}")
+
+    return gate_decision
 
 
 def _parse_gate_decision(report: dict, report_id: str, simulation_id: str) -> dict:

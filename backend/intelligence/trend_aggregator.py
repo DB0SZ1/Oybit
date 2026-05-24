@@ -33,6 +33,8 @@ def collect_rss_trends(keywords: list[str] = None) -> list[dict]:
     feeds = [
         "https://techcrunch.com/feed/",
         "https://news.ycombinator.com/rss",
+        "https://dev.to/feed",
+        "https://github.com/trending.atom"
     ]
 
     signals = []
@@ -70,25 +72,39 @@ def collect_google_trends(keywords: list[str] = None) -> list[dict]:
     signals = []
     try:
         from pytrends.request import TrendReq
+        import time as _time
 
         pytrends = TrendReq(hl="en-US", tz=360, timeout=(10, 25))
         for kw_batch in [keywords[i:i+5] for i in range(0, len(keywords), 5)]:
-            try:
-                pytrends.build_payload(kw_batch, timeframe="now 1-d")
-                data = pytrends.interest_over_time()
-                if not data.empty:
-                    for kw in kw_batch:
-                        if kw in data.columns:
-                            score = float(data[kw].iloc[-1]) / 100.0
-                            signals.append({
-                                "source": "google_trends",
-                                "topic": kw,
-                                "score": score,
-                                "raw_data": {"keyword": kw, "current_interest": score}
-                            })
-            except Exception as e:
-                logger.warning(f"Google Trends error for {kw_batch}: {e}")
-                continue
+            max_retries = 3
+            for attempt in range(max_retries):
+                try:
+                    pytrends.build_payload(kw_batch, timeframe="now 1-d")
+                    data = pytrends.interest_over_time()
+                    if not data.empty:
+                        for kw in kw_batch:
+                            if kw in data.columns:
+                                score = float(data[kw].iloc[-1]) / 100.0
+                                signals.append({
+                                    "source": "google_trends",
+                                    "topic": kw,
+                                    "score": score,
+                                    "raw_data": {"keyword": kw, "current_interest": score}
+                                })
+                    break  # success — move to next batch
+                except Exception as e:
+                    err_str = str(e).lower()
+                    if "429" in err_str or "rate" in err_str or "quota" in err_str:
+                        wait = 30 * (2 ** attempt)  # 30s, 60s, 120s
+                        logger.warning(
+                            f"Google Trends rate-limited (attempt {attempt+1}/{max_retries}) "
+                            f"for {kw_batch}. Retrying in {wait}s..."
+                        )
+                        if attempt < max_retries - 1:
+                            _time.sleep(wait)
+                    else:
+                        logger.warning(f"Google Trends error for {kw_batch}: {e}")
+                        break  # non-rate-limit error — skip batch
     except ImportError:
         logger.warning("pytrends not installed — skipping Google Trends")
 
@@ -125,6 +141,12 @@ def run_trend_collection(keywords: list[str] = None, engine=None) -> list[dict]:
     rss_signals = collect_rss_trends(keywords)
     all_signals.extend(rss_signals)
     logger.info(f"Collected {len(rss_signals)} RSS signals")
+
+    import random
+    import time
+    jitter = random.randint(10, 40)
+    logger.info(f"Adding {jitter}s startup jitter before Google Trends collection to avoid 429...")
+    time.sleep(jitter)
 
     # Google Trends
     gt_signals = collect_google_trends(keywords)

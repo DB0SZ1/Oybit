@@ -127,8 +127,20 @@ def start_worker():
     update_heartbeat("ok")
     
     # Wait for MiroFish worker to populate narratives before first detection
-    logger.info("Waiting 120s for MiroFish to populate narratives before first run...")
-    time.sleep(120)
+    logger.info("Waiting for MiroFish to populate narratives before first run (up to 300s)...")
+    wait_time = 0
+    while wait_time < 300:
+        db = SessionLocal()
+        try:
+            from backend.db.models import MiroFishRun
+            latest_run = db.query(MiroFishRun).first()
+            if latest_run:
+                logger.info("Found MiroFishRun in DB, starting opportunity detection.")
+                break
+        finally:
+            db.close()
+        time.sleep(10)
+        wait_time += 10
     
     # Run once after delay
     run_opportunity_job()

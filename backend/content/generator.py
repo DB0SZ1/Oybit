@@ -89,7 +89,13 @@ def generate_content(prompt_dict: dict, dry_run: bool = False, http_client=None)
             resp = client.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload)
             if resp.status_code == 200:
                 data = resp.json()
-                raw_text = data["choices"][0]["message"]["content"]
+                if "error" in data:
+                    logger.error(f"OpenRouter returned error payload: {data['error']}")
+                    raise Exception(f"OpenRouter Error: {data['error']}")
+                try:
+                    raw_text = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+                except (IndexError, AttributeError):
+                    raw_text = ""
                 return _parse_variants(raw_text)
             elif resp.status_code == 429:
                 import time
@@ -169,13 +175,21 @@ def call_openrouter_raw(
             )
             if resp.status_code == 200:
                 data = resp.json()
-                return data["choices"][0]["message"]["content"]
+                if "error" in data:
+                    logger.error(f"OpenRouter error: {data['error']}")
+                    raise Exception(f"OpenRouter Error: {data['error']}")
+                try:
+                    return data.get("choices", [{}])[0].get("message", {}).get("content", "")
+                except (IndexError, AttributeError):
+                    return ""
             elif resp.status_code == 429:
                 import time
+                import random
                 retry_after = int(resp.headers.get("retry-after", 30))
-                logger.warning("OpenRouter rate limit", extra={"retry_after": retry_after, "attempt": attempt})
+                jitter = random.randint(1, 5)
+                logger.warning("OpenRouter rate limit", extra={"retry_after": retry_after, "jitter": jitter, "attempt": attempt})
                 if attempt < 2:
-                    time.sleep(retry_after)
+                    time.sleep(retry_after + jitter)
                 continue
             else:
                 resp.raise_for_status()

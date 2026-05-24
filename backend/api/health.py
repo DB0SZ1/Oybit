@@ -44,18 +44,24 @@ async def health_check(db: Session = Depends(get_db)):
          checks["queue_volume"] = "ok" if queue_path.parent.exists() else "FAIL: volume not mounted"
 
     # Worker heartbeats
-    for worker in ["mirofish", "analytics", "feedback", "trend", "scheduler"]:
+    for worker in ["mirofish_worker", "analytics_worker", "feedback_worker", "trend_worker", "scheduler_worker"]:
         try:
             last_run = get_worker_last_run(db, worker)
             if last_run:
                 age_hours = (datetime.utcnow() - last_run).total_seconds() / 3600
-                checks[f"worker_{worker}"] = "ok" if age_hours < 26 else f"WARN: last ran {age_hours:.1f}h ago"
+                checks[worker] = "ok" if age_hours < 26 else f"WARN: last ran {age_hours:.1f}h ago"
             else:
-                checks[f"worker_{worker}"] = "never_run"
-        except Exception:
-             checks[f"worker_{worker}"] = "error_fetching"
+                checks[worker] = "never_run"
+        except Exception as e:
+            import logging
+            logging.getLogger(__name__).warning(f"Error fetching worker {worker} heartbeat: {e}")
+            checks[worker] = "error_fetching"
 
-    all_ok = all(v == "ok" or v.startswith("WARN") or v == "never_run" for v in checks.values())
-    status_code = 200 if all_ok else 503
+    # never_run and error_fetching don't cause degraded status
+    all_ok = all(v == "ok" or str(v).startswith("WARN") or v in ("never_run", "error_fetching") for v in checks.values())
+    
+    # Don't fail the LB health check for worker fetch errors. Only fail if a hard FAIL is present (like DB connection).
+    has_critical_failure = any(str(v).startswith("FAIL") for v in checks.values())
+    status_code = 503 if has_critical_failure else 200
 
     return JSONResponse(content={"status": "ok" if all_ok else "degraded", "checks": checks}, status_code=status_code)

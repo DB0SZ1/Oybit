@@ -102,11 +102,40 @@ def start_keep_alive_worker():
                 logger.debug("Keep-alive ping successful")
         except Exception as e:
             logger.warning(f"Keep-alive ping failed: {e}")
+            
+        try:
+            import tempfile
+            lock_path = os.path.join(tempfile.gettempdir(), "oybit_workers.lock")
+            if os.path.exists(lock_path):
+                os.utime(lock_path, None)
+        except Exception:
+            pass
 
 
 def _start_background_workers():
     """Spawn all daemons as daemon threads so they start/stop alongside the backend."""
     logger.info("Spawning background workers...")
+    
+    import tempfile
+    import os
+    import time
+    
+    lock_path = os.path.join(tempfile.gettempdir(), "oybit_workers.lock")
+    try:
+        if os.path.exists(lock_path) and time.time() - os.path.getmtime(lock_path) > 300:
+            try:
+                os.remove(lock_path)
+            except OSError:
+                pass
+                
+        fd = os.open(lock_path, os.O_CREAT | os.O_EXCL | os.O_RDWR)
+        os.write(fd, str(os.getpid()).encode())
+        os.close(fd)
+    except FileExistsError:
+        logger.info("Background workers already started by another process. Skipping.")
+        return
+    except Exception as e:
+        logger.warning(f"Could not acquire worker lock: {e}")
     
     # Import the worker start functions locally to avoid circular dependencies
     try:

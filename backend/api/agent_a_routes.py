@@ -139,6 +139,16 @@ async def mirofish_status():
     except Exception as e:
         return {"status": "error", "error": str(e)}
 
+@router.get("/intelligence/mirofish/simulate")
+async def run_mirofish_simulation_get():
+    """Explicitly reject GET requests to prevent silent failures in frontend."""
+    from fastapi import Response
+    return Response(
+        content='{"status": "error", "message": "Method Not Allowed. Please use POST."}',
+        media_type="application/json",
+        status_code=405
+    )
+
 @router.post("/intelligence/mirofish/simulate")
 async def run_mirofish_simulation(
     post_text: str = Body(...),

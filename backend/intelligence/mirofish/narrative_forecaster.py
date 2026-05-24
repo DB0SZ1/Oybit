@@ -75,14 +75,14 @@ def run_daily_forecast(
 
     # Step 5: Simulate each narrative across target platforms
     simulation_results = {}
-    for narrative in narratives[:5]:  # Limit to top 5 narratives
+    for narrative in narratives[:3]:  # Limit to top 3 narratives (was 5)
         for platform in target_platforms:
             sim_key = f"{narrative['theme']}_{platform}"
             sim_result = run_simulation(
                 agents=agents,
                 narrative_text=narrative["text"],
                 platform=platform,
-                rounds=2,
+                rounds=1,  # Reduced from 2 rounds to speed up
             )
             simulation_results[sim_key] = {
                 "narrative": narrative,
