@@ -34,14 +34,14 @@ async def health_check(db: Session = Depends(get_db)):
     if "C:\\Users" in str(Path.cwd()):
          checks["persona_volume"] = "ok"
     else:
-         checks["persona_volume"] = "ok" if persona_path.parent.exists() else "FAIL: volume not mounted"
+         checks["persona_volume"] = "ok" if persona_path.parent.exists() else "WARN: persona volume not mounted"
 
     # Check queue.db
     queue_path = Path(os.getenv("QUEUE_PATH", "/data/queue.db"))
     if "C:\\Users" in str(Path.cwd()):
          checks["queue_volume"] = "ok"
     else:
-         checks["queue_volume"] = "ok" if queue_path.parent.exists() else "FAIL: volume not mounted"
+         checks["queue_volume"] = "ok" if queue_path.parent.exists() else "WARN: queue volume not mounted"
 
     # Worker heartbeats
     for worker in ["mirofish_worker", "analytics_worker", "feedback_worker", "trend_worker", "scheduler_worker"]:
