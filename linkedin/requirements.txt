@@ -1,0 +1,55 @@
+# ══════════════════════════════════════════════════════
+# Oybit — Python Dependencies (pinned for stability)
+# ══════════════════════════════════════════════════════
+
+# FastAPI & Server
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+python-multipart==0.0.9
+
+# Database
+SQLAlchemy==2.0.30
+alembic==1.13.1
+psycopg2-binary==2.9.9
+
+# Redis
+redis==5.0.4
+
+# AI / Intelligence
+httpx==0.27.0
+openai==1.35.0
+
+# Platform APIs
+requests==2.32.3
+praw==7.7.1
+
+# Rendering
+playwright==1.44.0
+Jinja2==3.1.4
+Pillow==10.3.0
+
+# Security / Crypto
+cryptography==42.0.8
+python-jose[cryptography]==3.3.0
+
+# Telegram
+python-telegram-bot==21.3
+
+# Content Processing
+feedparser==6.0.11
+beautifulsoup4==4.12.3
+
+# Scheduling
+schedule==1.2.2
+APScheduler==3.10.4
+
+# Timezone
+pytz==2024.1
+
+# Google Trends
+pytrends==4.9.2
+
+# Utilities
+python-dotenv==1.0.1
+pydantic[email]==2.7.4
+twilio==9.0.0

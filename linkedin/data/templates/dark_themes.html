@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15 Slide Templates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Instrument+Serif:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Syne:wght@400..800&family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Kanit:ital,wght@0,300;0,700;1,300&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Unbounded:wght@200..900&family=Italiana&family=Raleway:ital,wght@0,100..900;1,100..900&family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #111; color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; padding: 40px 20px; }
+  h1 { text-align: center; font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: #555; margin-bottom: 40px; font-family: 'Space Mono', monospace; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 32px; max-width: 1400px; margin: 0 auto; }
+  .template-wrap { position: relative; }
+  .label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #444; margin-bottom: 8px; font-family: 'Space Mono', monospace; }
+  .slide { width: 100%; aspect-ratio: 1 / 1; position: relative; overflow: hidden; }
+  /* ─── TEMPLATE 1: Craill & Milk — Bricolage + Doodles ─── */
+  .t1 { background: #F5F0E8; color: #1a1a1a; font-family: 'Bricolage Grotesque', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px; }
+  .t1 .content { font-size: clamp(28px, 4vw, 52px); font-weight: 700; line-height: 1.25; color: #1a1a1a; position: relative; z-index: 2; }
+  .t1 .footer { position: absolute; bottom: 40px; font-size: clamp(14px, 1.5vw, 20px); color: #999; font-weight: 400; font-family: 'Bricolage Grotesque', sans-serif; z-index: 2; }
+  .t1 .doodles { position: absolute; inset: 0; pointer-events: none; }
+  /* ─── TEMPLATE 2: Ink on Milk variant ─── */
+  .t2 { background: #FFFDF5; color: #2b1a0f; font-family: 'Bricolage Grotesque', sans-serif; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: 60px; }
+  .t2 .content { font-size: clamp(28px, 4vw, 56px); font-weight: 800; line-height: 1.15; color: #2b1a0f; position: relative; z-index: 2; max-width: 80%; }
+  .t2 .footer { margin-top: 24px; font-size: clamp(12px, 1.2vw, 18px); color: #c9a87a; font-weight: 500; z-index: 2; }
+  .t2 .doodles { position: absolute; inset: 0; pointer-events: none; }
+  /* ─── TEMPLATE 3: Acid Craill ─── */
+  .t3 { background: #C8FF00; color: #0a0a0a; font-family: 'Bricolage Grotesque', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px; }
+  .t3 .content { font-size: clamp(28px, 4vw, 54px); font-weight: 700; line-height: 1.2; color: #0a0a0a; position: relative; z-index: 2; }
+  .t3 .footer { position: absolute; bottom: 40px; font-size: clamp(14px, 1.5vw, 20px); color: #5a6600; font-weight: 500; z-index: 2; }
+  .t3 .doodles { position: absolute; inset: 0; pointer-events: none; }
+  /* ─── TEMPLATE 4: Dark editorial Bricolage ─── */
+  .t4 { background: #0D0D0D; color: #f0ece3; font-family: 'Bricolage Grotesque', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 70px; }
+  .t4 .content { font-size: clamp(28px, 4vw, 56px); font-weight: 600; line-height: 1.2; color: #f0ece3; position: relative; z-index: 2; }
+  .t4 .footer { position: absolute; bottom: 40px; right: 60px; font-size: clamp(14px, 1.5vw, 20px); color: #555; z-index: 2; }
+  .t4 .doodles { position: absolute; inset: 0; pointer-events: none; }
+  /* ─── TEMPLATE 5: Space Mono Terminal ─── */
+  .t5 { background: #0a0f0a; color: #00ff41; font-family: 'Space Mono', monospace; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 70px; }
+  .t5 .content { font-size: clamp(20px, 2.8vw, 40px); font-weight: 700; line-height: 1.5; color: #00ff41; z-index: 2; position: relative; }
+  .t5 .footer { position: absolute; bottom: 40px; left: 70px; font-size: clamp(11px, 1.2vw, 16px); color: #006b1a; z-index: 2; }
+  .t5 .doodles { position: absolute; inset: 0; pointer-events: none; }
+  /* ─── TEMPLATE 6: Syne Neon ─── */
+  .t6 { background: #07020F; color: #fff; font-family: 'Syne', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px; }
+  .t6 .content { font-size: clamp(26px, 3.8vw, 52px); font-weight: 800; line-height: 1.15; background: linear-gradient(135deg, #ff6ef7, #7b5cfa, #00c9ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; z-index: 2; position: relative; }
+  .t6 .footer { position: absolute; bottom: 40px; font-size: clamp(12px, 1.3vw, 18px); color: #4a3a6a; z-index: 2; font-weight: 600; }
+  .t6 .doodles { position: absolute; inset: 0; pointer-events: none; }
+  /* ─── TEMPLATE 7: Bebas Brutalist ─── */
+  .t7 { background: #fff; color: #000; font-family: 'Bebas Neue', cursive; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: 60px; }
+  .t7 .content { font-size: clamp(50px, 8vw, 110px); font-weight: 400; line-height: 0.95; letter-spacing: -1px; color: #000; z-index: 2; position: relative; }
+  .t7 .footer { position: absolute; bottom: 40px; right: 60px; font-size: clamp(12px, 1.3vw, 18px); color: #bbb; font-family: 'Space Mono', monospace; font-weight: 400; z-index: 2; }
+  .t7 .doodles { position: absolute; inset: 0; pointer-events: none; }
+  /* ─── TEMPLATE 8: DM Serif italic luxury ─── */
+  .t8 { background: #1C1107; color: #F5E6C8; font-family: 'DM Serif Display', serif; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px; }
+  .t8 .content { font-size: clamp(26px, 3.8vw, 54px); font-weight: 400; font-style: italic; line-height: 1.3; color: #F5E6C8; z-index: 2; position: relative; }
+  .t8 .footer { position: absolute; bottom: 44px; font-size: clamp(11px, 1.2vw, 16px); color: #7a5a2a; letter-spacing: 0.2em; text-transform: uppercase; font-family: 'Plus Jakarta Sans', sans-serif; z-index: 2; }
+  .t8 .doodles { position: absolute; inset: 0; pointer-events: none; }
+  /* ─── TEMPLATE 9: Fraunces Editorial ─── */
+  .t9 { background: #F0EDE6; color: #1a1510; font-family: 'Fraunces', serif; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 70px; }
+  .t9 .content { font-size: clamp(26px, 3.8vw, 54px); font-weight: 300; font-style: italic; line-height: 1.3; color: #1a1510; z-index: 2; position: relative; max-width: 85%; }
+  .t9 .footer { position: absolute; bottom: 40px; right: 60px; font-size: clamp(11px, 1.2vw, 16px); color: #a09070; font-family: 'Plus Jakarta Sans', sans-serif; z-index: 2; }
+  .t9 .doodles { position: absolute; inset: 0; pointer-events: none; }
+  /* ─── TEMPLATE 10: Kanit Bold Contrast ─── */
+  .t10 { background: #FF2D55; color: #fff; font-family: 'Kanit', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px; }
+  .t10 .content { font-size: clamp(28px, 4vw, 58px); font-weight: 700; line-height: 1.1; color: #fff; z-index: 2; position: relative; letter-spacing: -1px; }
+  .t10 .footer { position: absolute; bottom: 40px; font-size: clamp(12px, 1.3vw, 18px); color: rgba(255,255,255,0.5); z-index: 2; font-weight: 300; }
+  .t10 .doodles { position: absolute; inset: 0; pointer-events: none; }
+  /* ─── TEMPLATE 11: Unbounded Deep Ocean ─── */
+  .t11 { background: #001828; color: #e0f4ff; font-family: 'Unbounded', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px; }
+  .t11 .content { font-size: clamp(20px, 3vw, 42px); font-weight: 700; line-height: 1.3; color: #e0f4ff; z-index: 2; position: relative; letter-spacing: -0.5px; }
+  .t11 .footer { position: absolute; bottom: 40px; font-size: clamp(10px, 1.1vw, 14px); color: #0a4a6a; z-index: 2; letter-spacing: 0.15em; }
+  .t11 .doodles { position: absolute; inset: 0; pointer-events: none; }
+  /* ─── TEMPLATE 12: Italiana Minimal ─── */
+  .t12 { background: #FAF9F6; color: #2a2a2a; font-family: 'Italiana', serif; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px; }
+  .t12 .content { font-size: clamp(28px, 4.5vw, 64px); font-weight: 400; line-height: 1.2; color: #2a2a2a; z-index: 2; position: relative; }
+  .t12 .footer { position: absolute; bottom: 40px; font-size: clamp(10px, 1.1vw, 14px); color: #ccc; letter-spacing: 0.3em; text-transform: uppercase; font-family: 'Plus Jakarta Sans', sans-serif; z-index: 2; }
+  .t12 .doodles { position: absolute; inset: 0; pointer-events: none; }
+  /* ─── TEMPLATE 13: Raleway Dusk ─── */
+  .t13 { background: #1a0a2e; color: #e8d5ff; font-family: 'Raleway', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 70px; }
+  .t13 .content { font-size: clamp(26px, 3.8vw, 54px); font-weight: 800; line-height: 1.2; color: #e8d5ff; z-index: 2; position: relative; letter-spacing: -0.5px; max-width: 80%; }
+  .t13 .footer { position: absolute; bottom: 40px; right: 60px; font-size: clamp(11px, 1.2vw, 16px); color: #4a2a7a; z-index: 2; font-weight: 600; }
+  .t13 .doodles { position: absolute; inset: 0; pointer-events: none; }
+  /* ─── TEMPLATE 14: Inter Tight Concrete ─── */
+  .t14 { background: #E8E4DC; color: #1a1a1a; font-family: 'Inter Tight', sans-serif; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: 60px; }
+  .t14 .content { font-size: clamp(28px, 4vw, 58px); font-weight: 900; line-height: 1.05; color: #1a1a1a; z-index: 2; position: relative; letter-spacing: -2px; text-transform: uppercase; }
+  .t14 .footer { margin-top: 20px; font-size: clamp(11px, 1.2vw, 16px); color: #8a8070; z-index: 2; font-weight: 400; letter-spacing: 0.1em; }
+  .t14 .doodles { position: absolute; inset: 0; pointer-events: none; }
+  /* ─── TEMPLATE 15: Libre Baskerville Midnight ─── */
+  .t15 { background: #08070A; color: #f5f0ff; font-family: 'Libre Baskerville', serif; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px; }
+  .t15 .content { font-size: clamp(24px, 3.5vw, 50px); font-weight: 400; line-height: 1.4; color: #f5f0ff; z-index: 2; position: relative; }
+  .t15 .footer { position: absolute; bottom: 40px; font-size: clamp(10px, 1.1vw, 14px); color: #2a2a3a; letter-spacing: 0.25em; text-transform: uppercase; font-family: 'Plus Jakarta Sans', sans-serif; z-index: 2; }
+  .t15 .doodles { position: absolute; inset: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+<h1>IRA_DEV — 15 Slide Template Variants</h1>
+<div class="grid">
+
+<!-- T1: Craill & Milk Classic -->
+<div class="template-wrap">
+  <div class="label">01 — Craill & Milk Classic</div>
+  <div class="slide">
+    <div class="t1">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="35" fill="none" stroke="#c5b99a" stroke-width="2" stroke-dasharray="4 3"/>
+        <path d="M400 80 Q430 60 420 100 Q410 140 440 120" fill="none" stroke="#c5b99a" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="30" y="200" width="50" height="50" rx="4" fill="none" stroke="#d4c8a8" stroke-width="2" transform="rotate(15 55 225)"/>
+        <circle cx="440" cy="300" r="20" fill="none" stroke="#c5b99a" stroke-width="2"/>
+        <circle cx="440" cy="300" r="8" fill="#d4c8a8"/>
+        <path d="M100 380 C 120 360 140 400 160 380 S 200 360 220 380" fill="none" stroke="#c5b99a" stroke-width="2" stroke-linecap="round"/>
+        <path d="M350 420 L370 400 L390 420 L370 440 Z" fill="none" stroke="#d4c8a8" stroke-width="2"/>
+        <circle cx="460" cy="180" r="6" fill="#c5b99a"/>
+        <circle cx="480" cy="170" r="3" fill="#c5b99a"/>
+        <circle cx="470" cy="195" r="4" fill="#d4c8a8"/>
+        <path d="M200 50 L210 30 M210 30 L220 50 M195 40 L225 40" fill="none" stroke="#c5b99a" stroke-width="2" stroke-linecap="round"/>
+        <path d="M50 350 Q70 330 90 350 Q110 370 130 350" fill="none" stroke="#c5b99a" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="300" y1="30" x2="330" y2="60" stroke="#c5b99a" stroke-width="1.5"/>
+        <line x1="330" y1="30" x2="300" y2="60" stroke="#c5b99a" stroke-width="1.5"/>
+        <rect x="10" y="420" width="30" height="4" rx="2" fill="#d4c8a8" transform="rotate(-20 25 422)"/>
+        <rect x="15" y="430" width="20" height="4" rx="2" fill="#c5b99a" transform="rotate(-20 25 432)"/>
+        <circle cx="250" cy="450" r="15" fill="none" stroke="#c5b99a" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <path d="M420 380 L430 370 L450 390 L440 400 Z" fill="#d4c8a8" opacity="0.5"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+<!-- T2: Craill & Milk Left-Anchor -->
+<div class="template-wrap">
+  <div class="label">02 — Craill & Milk Left-Anchor</div>
+  <div class="slide">
+    <div class="t2">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="400" cy="80" r="90" fill="none" stroke="#e8d5b0" stroke-width="60" opacity="0.18"/>
+        <circle cx="420" cy="90" r="55" fill="none" stroke="#c9a87a" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <path d="M10 100 Q50 80 90 100 Q130 120 170 100" fill="none" stroke="#c9a87a" stroke-width="2" stroke-linecap="round"/>
+        <path d="M10 115 Q50 95 90 115 Q130 135 170 115" fill="none" stroke="#c9a87a" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+        <rect x="430" y="250" width="40" height="40" rx="4" fill="none" stroke="#c9a87a" stroke-width="2" transform="rotate(30 450 270)"/>
+        <path d="M60 420 L80 400 L100 420 L80 440 Z" fill="none" stroke="#c9a87a" stroke-width="2"/>
+        <circle cx="20" cy="300" r="8" fill="#c9a87a" opacity="0.5"/>
+        <circle cx="38" cy="290" r="5" fill="#c9a87a" opacity="0.35"/>
+        <path d="M300 460 C320 440 340 480 360 460" fill="none" stroke="#c9a87a" stroke-width="2" stroke-linecap="round"/>
+        <line x1="460" y1="400" x2="490" y2="430" stroke="#c9a87a" stroke-width="2"/>
+        <line x1="490" y1="400" x2="460" y2="430" stroke="#c9a87a" stroke-width="2"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+<!-- T3: Acid Craill -->
+<div class="template-wrap">
+  <div class="label">03 — Acid Craill</div>
+  <div class="slide">
+    <div class="t3">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="460" cy="460" r="120" fill="none" stroke="#5a6600" stroke-width="2" stroke-dasharray="8 5"/>
+        <circle cx="460" cy="460" r="80" fill="none" stroke="#5a6600" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <circle cx="50" cy="50" r="60" fill="none" stroke="#5a6600" stroke-width="2" stroke-dasharray="6 4"/>
+        <path d="M200 30 L215 10 L230 30 L215 50 Z" fill="#5a6600" opacity="0.4"/>
+        <path d="M350 60 C360 40 380 40 390 60 C400 80 380 90 370 80" fill="none" stroke="#3d4700" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="20" y="350" width="35" height="35" rx="4" fill="none" stroke="#5a6600" stroke-width="2" transform="rotate(20 37 367)"/>
+        <circle cx="250" cy="480" r="12" fill="#3d4700" opacity="0.5"/>
+        <circle cx="270" cy="470" r="7" fill="#3d4700" opacity="0.35"/>
+        <path d="M420 200 Q440 180 430 210 Q420 240 450 220" fill="none" stroke="#5a6600" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="30" y1="200" x2="60" y2="230" stroke="#5a6600" stroke-width="2"/>
+        <line x1="60" y1="200" x2="30" y2="230" stroke="#5a6600" stroke-width="2"/>
+        <path d="M100 460 C120 440 140 480 160 460 S 200 440 220 460" fill="none" stroke="#5a6600" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+<!-- T4: Dark Bricolage -->
+<div class="template-wrap">
+  <div class="label">04 — Dark Bricolage</div>
+  <div class="slide">
+    <div class="t4">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="420" cy="420" r="200" fill="none" stroke="#2a2a2a" stroke-width="80" opacity="0.7"/>
+        <path d="M450 80 Q470 60 460 100 Q450 140 480 120" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="30" y="280" width="50" height="50" rx="4" fill="none" stroke="#333" stroke-width="1.5" transform="rotate(10 55 305)"/>
+        <circle cx="460" cy="200" r="6" fill="#3a3a3a"/>
+        <circle cx="475" cy="188" r="3.5" fill="#444"/>
+        <path d="M50 100 L65 80 L80 100 L65 120 Z" fill="none" stroke="#3a3a3a" stroke-width="1.5"/>
+        <path d="M200 450 C220 430 240 470 260 450" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+        <line x1="380" y1="460" x2="410" y2="490" stroke="#333" stroke-width="2"/>
+        <line x1="410" y1="460" x2="380" y2="490" stroke="#333" stroke-width="2"/>
+        <circle cx="100" cy="420" r="25" fill="none" stroke="#2e2e2e" stroke-width="1.5" stroke-dasharray="4 3"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+<!-- T5: Space Mono Terminal -->
+<div class="template-wrap">
+  <div class="label">05 — Space Mono Terminal</div>
+  <div class="slide">
+    <div class="t5">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="500" height="500" fill="url(#scanlines)"/>
+        <defs>
+          <pattern id="scanlines" x="0" y="0" width="500" height="4" patternUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="500" height="2" fill="#00ff41" opacity="0.03"/>
+          </pattern>
+        </defs>
+        <rect x="30" y="30" width="440" height="440" rx="4" fill="none" stroke="#00ff41" stroke-width="0.5" opacity="0.2"/>
+        <rect x="38" y="38" width="424" height="424" rx="4" fill="none" stroke="#00ff41" stroke-width="0.3" opacity="0.1"/>
+        <text x="40" y="470" font-family="monospace" font-size="11" fill="#006b1a" opacity="0.8">&gt; READY_</text>
+        <line x1="30" y1="60" x2="100" y2="60" stroke="#00ff41" stroke-width="0.5" opacity="0.3"/>
+        <circle cx="40" cy="60" r="4" fill="none" stroke="#00ff41" stroke-width="1" opacity="0.5"/>
+        <circle cx="60" cy="60" r="4" fill="none" stroke="#00ff41" stroke-width="1" opacity="0.5"/>
+        <circle cx="80" cy="60" r="4" fill="none" stroke="#00ff41" stroke-width="1" opacity="0.5"/>
+        <path d="M400 100 L470 100 L470 170" fill="none" stroke="#00ff41" stroke-width="0.5" opacity="0.3"/>
+        <path d="M30 400 L30 430 L100 430" fill="none" stroke="#00ff41" stroke-width="0.5" opacity="0.3"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+<!-- T6: Syne Neon -->
+<div class="template-wrap">
+  <div class="label">06 — Syne Neon</div>
+  <div class="slide">
+    <div class="t6">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="250" cy="250" r="200" fill="none" stroke="#ff6ef7" stroke-width="0.5" opacity="0.15"/>
+        <circle cx="250" cy="250" r="160" fill="none" stroke="#7b5cfa" stroke-width="0.5" opacity="0.15"/>
+        <circle cx="250" cy="250" r="120" fill="none" stroke="#00c9ff" stroke-width="0.5" opacity="0.15"/>
+        <circle cx="80" cy="80" r="40" fill="none" stroke="#ff6ef7" stroke-width="1" opacity="0.3"/>
+        <circle cx="420" cy="420" r="40" fill="none" stroke="#00c9ff" stroke-width="1" opacity="0.3"/>
+        <path d="M60 300 Q80 280 100 300 Q120 320 140 300" fill="none" stroke="#7b5cfa" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+        <path d="M360 80 Q380 60 400 80 Q420 100 440 80" fill="none" stroke="#ff6ef7" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+        <rect x="20" y="430" width="30" height="30" rx="4" fill="none" stroke="#00c9ff" stroke-width="1" transform="rotate(20 35 445)" opacity="0.4"/>
+        <circle cx="460" cy="150" r="6" fill="#ff6ef7" opacity="0.4"/>
+        <circle cx="475" cy="140" r="3" fill="#7b5cfa" opacity="0.4"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+<!-- T7: Bebas Brutalist -->
+<div class="template-wrap">
+  <div class="label">07 — Bebas Brutalist</div>
+  <div class="slide">
+    <div class="t7">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="500" height="12" fill="#000"/>
+        <rect x="0" y="488" width="500" height="12" fill="#000"/>
+        <rect x="0" y="0" width="12" height="500" fill="#000"/>
+        <rect x="488" y="0" width="12" height="500" fill="#000"/>
+        <line x1="0" y1="80" x2="500" y2="80" stroke="#000" stroke-width="1"/>
+        <path d="M350 120 L480 120 L480 480 L350 480" fill="none" stroke="#e0e0e0" stroke-width="2"/>
+        <text x="420" y="320" font-family="'Bebas Neue', cursive" font-size="120" fill="#f0f0f0" transform="rotate(90 420 320)" text-anchor="middle">TEXT</text>
+        <circle cx="60" cy="40" r="12" fill="#000"/>
+        <circle cx="100" cy="40" r="12" fill="none" stroke="#000" stroke-width="2"/>
+        <circle cx="140" cy="40" r="12" fill="none" stroke="#000" stroke-width="2"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+<!-- T8: DM Serif Luxury -->
+<div class="template-wrap">
+  <div class="label">08 — DM Serif Luxury</div>
+  <div class="slide">
+    <div class="t8">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="250" cy="250" r="220" fill="none" stroke="#5a3a10" stroke-width="0.5" opacity="0.6"/>
+        <circle cx="250" cy="250" r="200" fill="none" stroke="#7a5a20" stroke-width="0.5" opacity="0.4"/>
+        <path d="M80 80 C 80 50 120 50 120 80" fill="none" stroke="#8a6a30" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+        <path d="M380 80 C 380 50 420 50 420 80" fill="none" stroke="#8a6a30" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+        <path d="M80 420 C 80 450 120 450 120 420" fill="none" stroke="#8a6a30" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+        <path d="M380 420 C 380 450 420 450 420 420" fill="none" stroke="#8a6a30" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+        <line x1="250" y1="30" x2="250" y2="50" stroke="#7a5a20" stroke-width="1" opacity="0.6"/>
+        <line x1="230" y1="40" x2="270" y2="40" stroke="#7a5a20" stroke-width="1" opacity="0.6"/>
+        <line x1="250" y1="450" x2="250" y2="470" stroke="#7a5a20" stroke-width="1" opacity="0.6"/>
+        <line x1="230" y1="460" x2="270" y2="460" stroke="#7a5a20" stroke-width="1" opacity="0.6"/>
+        <rect x="230" y="20" width="40" height="40" rx="2" fill="none" stroke="#6a4a18" stroke-width="0.5" opacity="0.5"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+<!-- T9: Fraunces Editorial -->
+<div class="template-wrap">
+  <div class="label">09 — Fraunces Editorial</div>
+  <div class="slide">
+    <div class="t9">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="30" x2="500" y2="30" stroke="#d0c8b0" stroke-width="0.5"/>
+        <line x1="0" y1="470" x2="500" y2="470" stroke="#d0c8b0" stroke-width="0.5"/>
+        <line x1="30" y1="0" x2="30" y2="500" stroke="#d0c8b0" stroke-width="0.5"/>
+        <circle cx="420" cy="80" r="50" fill="none" stroke="#c8b890" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <path d="M380 380 Q400 360 420 380 Q440 400 460 380" fill="none" stroke="#c8b890" stroke-width="2" stroke-linecap="round"/>
+        <rect x="40" y="350" width="40" height="4" rx="2" fill="#d0c8b0"/>
+        <rect x="40" y="362" width="25" height="4" rx="2" fill="#d0c8b0"/>
+        <rect x="40" y="374" width="32" height="4" rx="2" fill="#d0c8b0"/>
+        <circle cx="460" cy="300" r="8" fill="#c8b890" opacity="0.6"/>
+        <circle cx="475" cy="288" r="5" fill="#c8b890" opacity="0.4"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+<!-- T10: Kanit Bold Contrast -->
+<div class="template-wrap">
+  <div class="label">10 — Kanit Bold Contrast</div>
+  <div class="slide">
+    <div class="t10">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="0" cy="500" r="280" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+        <circle cx="500" cy="0" r="280" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+        <circle cx="0" cy="500" r="200" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="2"/>
+        <circle cx="500" cy="0" r="200" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="2"/>
+        <path d="M50 80 Q70 60 90 80 Q110 100 130 80" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-linecap="round"/>
+        <rect x="390" y="380" width="50" height="50" rx="4" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2" transform="rotate(25 415 405)"/>
+        <circle cx="450" cy="120" r="8" fill="rgba(255,255,255,0.2)"/>
+        <circle cx="468" cy="108" r="4" fill="rgba(255,255,255,0.15)"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+<!-- T11: Unbounded Deep Ocean -->
+<div class="template-wrap">
+  <div class="label">11 — Unbounded Deep Ocean</div>
+  <div class="slide">
+    <div class="t11">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="250" cy="250" r="230" fill="none" stroke="#0a3a5a" stroke-width="60" opacity="0.5"/>
+        <circle cx="250" cy="250" r="140" fill="none" stroke="#0a3a5a" stroke-width="1" opacity="0.6"/>
+        <circle cx="250" cy="250" r="170" fill="none" stroke="#0a3a5a" stroke-width="0.5" opacity="0.4"/>
+        <path d="M100 120 Q110 100 120 120 Q130 140 140 120" fill="none" stroke="#0a5a8a" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        <path d="M360 380 Q370 360 380 380 Q390 400 400 380" fill="none" stroke="#0a5a8a" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        <rect x="40" y="40" width="40" height="40" rx="4" fill="none" stroke="#0a3a5a" stroke-width="1" transform="rotate(15 60 60)" opacity="0.6"/>
+        <rect x="420" y="420" width="40" height="40" rx="4" fill="none" stroke="#0a3a5a" stroke-width="1" transform="rotate(15 440 440)" opacity="0.6"/>
+        <circle cx="460" cy="80" r="5" fill="#0a5a8a" opacity="0.6"/>
+        <circle cx="476" cy="68" r="3" fill="#0a5a8a" opacity="0.4"/>
+        <circle cx="40" cy="380" r="5" fill="#0a5a8a" opacity="0.6"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+<!-- T12: Italiana Minimal -->
+<div class="template-wrap">
+  <div class="label">12 — Italiana Minimal</div>
+  <div class="slide">
+    <div class="t12">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <line x1="200" y1="0" x2="200" y2="500" stroke="#e8e0d0" stroke-width="0.5"/>
+        <line x1="300" y1="0" x2="300" y2="500" stroke="#e8e0d0" stroke-width="0.5"/>
+        <line x1="0" y1="200" x2="500" y2="200" stroke="#e8e0d0" stroke-width="0.5"/>
+        <line x1="0" y1="300" x2="500" y2="300" stroke="#e8e0d0" stroke-width="0.5"/>
+        <circle cx="250" cy="250" r="180" fill="none" stroke="#ddd8cc" stroke-width="0.5"/>
+        <circle cx="250" cy="250" r="5" fill="#d8d0c0"/>
+        <circle cx="200" cy="200" r="3" fill="#e8e0d0"/>
+        <circle cx="300" cy="200" r="3" fill="#e8e0d0"/>
+        <circle cx="200" cy="300" r="3" fill="#e8e0d0"/>
+        <circle cx="300" cy="300" r="3" fill="#e8e0d0"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+<!-- T13: Raleway Dusk -->
+<div class="template-wrap">
+  <div class="label">13 — Raleway Dusk</div>
+  <div class="slide">
+    <div class="t13">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="400" cy="100" r="150" fill="none" stroke="#3a1a6a" stroke-width="80" opacity="0.5"/>
+        <circle cx="400" cy="100" r="80" fill="none" stroke="#5a3a9a" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.4"/>
+        <path d="M40 300 Q60 280 80 300 Q100 320 120 300 Q140 280 160 300" fill="none" stroke="#4a2a7a" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M40 320 Q60 300 80 320 Q100 340 120 320" fill="none" stroke="#3a1a6a" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+        <rect x="40" y="420" width="50" height="4" rx="2" fill="#3a1a6a"/>
+        <rect x="40" y="432" width="30" height="4" rx="2" fill="#3a1a6a" opacity="0.5"/>
+        <circle cx="460" cy="380" r="8" fill="#4a2a7a" opacity="0.5"/>
+        <circle cx="478" cy="368" r="5" fill="#3a1a6a" opacity="0.4"/>
+        <path d="M40 160 L55 140 L70 160 L55 180 Z" fill="none" stroke="#4a2a7a" stroke-width="1.5" opacity="0.6"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+<!-- T14: Inter Tight Concrete -->
+<div class="template-wrap">
+  <div class="label">14 — Inter Tight Concrete</div>
+  <div class="slide">
+    <div class="t14">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="0" x2="500" y2="500" stroke="#c8c0b0" stroke-width="0.5" opacity="0.4"/>
+        <line x1="500" y1="0" x2="0" y2="500" stroke="#c8c0b0" stroke-width="0.5" opacity="0.4"/>
+        <rect x="380" y="60" width="80" height="80" rx="0" fill="none" stroke="#b8b0a0" stroke-width="1.5"/>
+        <rect x="390" y="70" width="60" height="60" rx="0" fill="#d8d0c0" opacity="0.3"/>
+        <circle cx="80" cy="80" r="40" fill="none" stroke="#c8c0b0" stroke-width="1.5"/>
+        <path d="M60 80 L80 60 L100 80 L80 100 Z" fill="#c8c0b0" opacity="0.3"/>
+        <line x1="0" y1="460" x2="500" y2="460" stroke="#b8b0a0" stroke-width="1"/>
+        <rect x="0" y="460" width="160" height="40" rx="0" fill="#c8c0b0" opacity="0.2"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+<!-- T15: Libre Baskerville Midnight -->
+<div class="template-wrap">
+  <div class="label">15 — Libre Baskerville Midnight</div>
+  <div class="slide">
+    <div class="t15">
+      <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="250" cy="250" r="240" fill="none" stroke="#1a1525" stroke-width="2"/>
+        <circle cx="250" cy="250" r="210" fill="none" stroke="#1a1525" stroke-width="1"/>
+        <circle cx="250" cy="250" r="180" fill="none" stroke="#1a1525" stroke-width="0.5"/>
+        <circle cx="250" cy="50" r="6" fill="#2a2035"/>
+        <circle cx="250" cy="450" r="6" fill="#2a2035"/>
+        <circle cx="50" cy="250" r="6" fill="#2a2035"/>
+        <circle cx="450" cy="250" r="6" fill="#2a2035"/>
+        <circle cx="107" cy="107" r="4" fill="#1a1525"/>
+        <circle cx="393" cy="107" r="4" fill="#1a1525"/>
+        <circle cx="107" cy="393" r="4" fill="#1a1525"/>
+        <circle cx="393" cy="393" r="4" fill="#1a1525"/>
+        <path d="M200 30 Q250 10 300 30" fill="none" stroke="#1e1a2a" stroke-width="1" stroke-linecap="round"/>
+        <path d="M200 470 Q250 490 300 470" fill="none" stroke="#1e1a2a" stroke-width="1" stroke-linecap="round"/>
+        <line x1="250" y1="20" x2="250" y2="35" stroke="#2a2035" stroke-width="1"/>
+        <line x1="250" y1="465" x2="250" y2="480" stroke="#2a2035" stroke-width="1"/>
+      </svg>
+      <div class="content">{slide_content}</div>
+      <div class="footer">{slide_num} / {total_slides}</div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

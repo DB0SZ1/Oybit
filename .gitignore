@@ -1,51 +1,10 @@
-# Environments
 .env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# SQLite
-*.sqlite3
-*.db
-oybit_dev.db
-
-# Python
+*.env
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Node / Frontend
+*.pyc
 node_modules/
-.next/
-out/
-build/
-.DS_Store
-
-# Temporary / Output
-tmp/
-oybit_renders/
-test_out.txt
-test_output.txt
-test_out_utf8.txt
-output/
+.venv/
+venv/
+*.png
+*.jpg
+*.jpeg

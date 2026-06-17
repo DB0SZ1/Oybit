@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15 Light Slide Templates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Instrument+Serif:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Syne:wght@400..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Kanit:ital,wght@0,300;0,700;1,300&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900;1,9..144,100..900&family=Unbounded:wght@200..900&family=Italiana&family=Raleway:ital,wght@0,100..900;1,100..900&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&family=Architects+Daughter&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#f0ece6; font-family:'Plus Jakarta Sans',sans-serif; padding:48px 24px; }
+h1 { text-align:center; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:#aaa; margin-bottom:48px; font-family:'Space Mono',monospace; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(420px,1fr)); gap:36px; max-width:1440px; margin:0 auto; }
+.template-wrap { }
+.label { font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:#bbb; margin-bottom:8px; font-family:'Space Mono',monospace; }
+.slide { width:100%; aspect-ratio:1/1; position:relative; overflow:hidden; }
+.slide > div { position:absolute; inset:0; display:flex; flex-direction:column; }
+.doodles { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+</style>
+</head>
+<body>
+<h1>IRA_DEV — 15 Light Slide Templates</h1>
+<div class="grid">
+
+
+<!-- ═══════════════════════════════════════════════
+     01  CRAILL & MILK — warm cream + terracotta doodles
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">01 — Craill & Milk Warm</div>
+<div class="slide">
+<div style="background:#FDF6EC; font-family:'Bricolage Grotesque',sans-serif; justify-content:center; align-items:center; text-align:center; padding:70px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <!-- big loose circle top-left -->
+    <circle cx="60" cy="70" r="42" fill="none" stroke="#D4956A" stroke-width="2.5" stroke-dasharray="6 4"/>
+    <!-- scribble squiggle top-right -->
+    <path d="M370 40 Q390 20 410 40 Q430 60 450 40 Q470 20 490 40" fill="none" stroke="#D4956A" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- hand-drawn star -->
+    <path d="M250 30 L256 46 L272 46 L260 56 L264 72 L250 62 L236 72 L240 56 L228 46 L244 46 Z" fill="none" stroke="#C8704A" stroke-width="2" stroke-linejoin="round"/>
+    <!-- diamond bottom-left -->
+    <path d="M55 400 L80 370 L105 400 L80 430 Z" fill="none" stroke="#D4956A" stroke-width="2.2"/>
+    <!-- dots cluster right -->
+    <circle cx="450" cy="220" r="7" fill="#E8B48A"/>
+    <circle cx="468" cy="206" r="4.5" fill="#E8B48A" opacity=".7"/>
+    <circle cx="462" cy="238" r="5" fill="#D4956A" opacity=".6"/>
+    <!-- wavy line bottom -->
+    <path d="M80 450 C110 430 140 470 170 450 S230 430 260 450 S320 470 350 450 S410 430 440 450" fill="none" stroke="#D4956A" stroke-width="2" stroke-linecap="round"/>
+    <!-- small rect rotated -->
+    <rect x="420" y="350" width="44" height="44" rx="4" fill="none" stroke="#C8704A" stroke-width="2" transform="rotate(18 442 372)"/>
+    <!-- cross top area -->
+    <line x1="180" y1="55" x2="210" y2="85" stroke="#D4956A" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="210" y1="55" x2="180" y2="85" stroke="#D4956A" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- arrow doodle -->
+    <path d="M38 250 Q28 230 48 220 Q68 210 58 190" fill="none" stroke="#C8704A" stroke-width="2" stroke-linecap="round"/>
+    <path d="M50 185 L58 190 L52 200" fill="none" stroke="#C8704A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <div style="font-size:clamp(26px,4.2vw,54px); font-weight:700; line-height:1.2; color:#2a1a0e; position:relative; z-index:2;">{slide_content}</div>
+  <div style="position:absolute; bottom:38px; font-size:clamp(13px,1.4vw,18px); color:#C8704A; font-weight:500; z-index:2;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     02  MILK & INK — pure white, black ink doodles, left-anchor
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">02 — Milk & Ink</div>
+<div class="slide">
+<div style="background:#FEFEFE; font-family:'Bricolage Grotesque',sans-serif; justify-content:flex-end; align-items:flex-start; padding:60px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="420" cy="80" r="100" fill="none" stroke="#1a1a1a" stroke-width="1.5" stroke-dasharray="7 5"/>
+    <circle cx="420" cy="80" r="60" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="3 3" opacity=".4"/>
+    <path d="M30 130 Q60 110 90 130 Q120 150 150 130 Q180 110 210 130" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+    <path d="M30 148 Q60 128 90 148 Q120 168 150 148" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round" opacity=".3"/>
+    <path d="M390 380 L410 355 L430 380 L410 405 Z" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+    <circle cx="60" cy="390" r="10" fill="#1a1a1a" opacity=".15"/>
+    <circle cx="80" cy="378" r="6" fill="#1a1a1a" opacity=".1"/>
+    <path d="M280 440 C300 420 320 460 340 440" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+    <path d="M460 300 Q480 280 470 320 Q460 360 490 340" fill="none" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="200" y1="50" x2="230" y2="80" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+    <line x1="230" y1="50" x2="200" y2="80" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+    <rect x="30" y="280" width="38" height="38" rx="3" fill="none" stroke="#1a1a1a" stroke-width="1.8" transform="rotate(-12 49 299)"/>
+  </svg>
+  <div style="font-size:clamp(26px,4.2vw,56px); font-weight:800; line-height:1.1; color:#1a1a1a; position:relative; z-index:2; max-width:82%;">{slide_content}</div>
+  <div style="margin-top:20px; font-size:clamp(12px,1.3vw,17px); color:#aaa; font-weight:400; z-index:2;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     03  LEMON SORBET — bright yellow, chunky doodles
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">03 — Lemon Sorbet</div>
+<div class="slide">
+<div style="background:#FFF176; font-family:'Bricolage Grotesque',sans-serif; justify-content:center; align-items:center; text-align:center; padding:66px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="55" fill="none" stroke="#B8860B" stroke-width="3" stroke-dasharray="8 5"/>
+    <circle cx="450" cy="450" r="55" fill="none" stroke="#B8860B" stroke-width="3" stroke-dasharray="8 5"/>
+    <path d="M400 60 Q420 40 440 60 Q460 80 480 60" fill="none" stroke="#B8860B" stroke-width="3" stroke-linecap="round"/>
+    <path d="M20 400 Q40 380 60 400 Q80 420 100 400" fill="none" stroke="#B8860B" stroke-width="3" stroke-linecap="round"/>
+    <path d="M230 30 L240 12 L250 30 L268 30 L254 42 L260 60 L250 48 L240 60 L246 42 L232 30 Z" fill="none" stroke="#8B6508" stroke-width="2.2" stroke-linejoin="round"/>
+    <circle cx="460" cy="200" r="9" fill="#B8860B" opacity=".5"/>
+    <circle cx="476" cy="186" r="5.5" fill="#B8860B" opacity=".35"/>
+    <circle cx="466" cy="218" r="6" fill="#8B6508" opacity=".4"/>
+    <rect x="28" y="340" width="46" height="46" rx="5" fill="none" stroke="#B8860B" stroke-width="2.5" transform="rotate(22 51 363)"/>
+    <path d="M340 460 C360 438 380 478 400 460" fill="none" stroke="#8B6508" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="400" y1="30" x2="428" y2="58" stroke="#B8860B" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="428" y1="30" x2="400" y2="58" stroke="#B8860B" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>
+  <div style="font-size:clamp(26px,4.2vw,54px); font-weight:700; line-height:1.2; color:#2a1e00; position:relative; z-index:2;">{slide_content}</div>
+  <div style="position:absolute; bottom:38px; font-size:clamp(13px,1.4vw,18px); color:#8B6508; font-weight:600; z-index:2;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     04  MINT FRESH — soft sage green, loose squiggles
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">04 — Mint Fresh</div>
+<div class="slide">
+<div style="background:#EDFAF2; font-family:'Outfit',sans-serif; justify-content:center; align-items:flex-start; padding:72px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="430" cy="430" r="180" fill="none" stroke="#5DB87A" stroke-width="60" opacity=".12"/>
+    <path d="M40 80 Q60 60 80 80 Q100 100 120 80 Q140 60 160 80 Q180 100 200 80" fill="none" stroke="#5DB87A" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M40 100 Q60 80 80 100 Q100 120 120 100" fill="none" stroke="#5DB87A" stroke-width="1.2" stroke-linecap="round" opacity=".4"/>
+    <circle cx="440" cy="140" r="28" fill="none" stroke="#3DA85A" stroke-width="2" stroke-dasharray="5 4"/>
+    <path d="M50 380 L70 355 L90 380 L70 405 Z" fill="none" stroke="#5DB87A" stroke-width="2.2"/>
+    <circle cx="420" cy="300" r="8" fill="#5DB87A" opacity=".5"/>
+    <circle cx="438" cy="288" r="5" fill="#3DA85A" opacity=".4"/>
+    <path d="M200 460 C220 440 240 480 260 460 S300 440 320 460" fill="none" stroke="#5DB87A" stroke-width="2.2" stroke-linecap="round"/>
+    <rect x="440" y="380" width="40" height="40" rx="4" fill="none" stroke="#5DB87A" stroke-width="2" transform="rotate(15 460 400)"/>
+    <line x1="350" y1="50" x2="378" y2="78" stroke="#5DB87A" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="378" y1="50" x2="350" y2="78" stroke="#5DB87A" stroke-width="2.2" stroke-linecap="round"/>
+  </svg>
+  <div style="font-size:clamp(26px,4.2vw,54px); font-weight:700; line-height:1.2; color:#0f2e1a; position:relative; z-index:2; max-width:88%;">{slide_content}</div>
+  <div style="position:absolute; bottom:38px; left:72px; font-size:clamp(13px,1.4vw,18px); color:#5DB87A; font-weight:600; z-index:2;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     05  PEACH FUZZ — peachy orange, Bricolage, centered
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">05 — Peach Fuzz</div>
+<div class="slide">
+<div style="background:#FFF0E6; font-family:'Bricolage Grotesque',sans-serif; justify-content:center; align-items:center; text-align:center; padding:70px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="250" cy="250" r="230" fill="none" stroke="#F4A46A" stroke-width="1.5" stroke-dasharray="6 5" opacity=".35"/>
+    <circle cx="250" cy="250" r="190" fill="none" stroke="#F4A46A" stroke-width="1" stroke-dasharray="3 4" opacity=".2"/>
+    <path d="M60 60 Q80 40 100 60 Q120 80 140 60" fill="none" stroke="#E87840" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M360 60 Q380 40 400 60 Q420 80 440 60" fill="none" stroke="#E87840" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M60 440 Q80 420 100 440 Q120 460 140 440" fill="none" stroke="#E87840" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M360 440 Q380 420 400 440 Q420 460 440 440" fill="none" stroke="#E87840" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="30" y="220" width="36" height="36" rx="4" fill="none" stroke="#F4A46A" stroke-width="2" transform="rotate(20 48 238)"/>
+    <rect x="434" y="220" width="36" height="36" rx="4" fill="none" stroke="#F4A46A" stroke-width="2" transform="rotate(-20 452 238)"/>
+    <circle cx="250" cy="40" r="7" fill="#F4A46A" opacity=".6"/>
+    <circle cx="250" cy="460" r="7" fill="#F4A46A" opacity=".6"/>
+    <path d="M230 30 L250 15 L270 30" fill="none" stroke="#E87840" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="460" cy="170" r="5" fill="#F4A46A" opacity=".5"/>
+    <circle cx="474" cy="158" r="3" fill="#F4A46A" opacity=".35"/>
+  </svg>
+  <div style="font-size:clamp(26px,4.2vw,54px); font-weight:700; line-height:1.2; color:#2e1200; position:relative; z-index:2;">{slide_content}</div>
+  <div style="position:absolute; bottom:38px; font-size:clamp(13px,1.4vw,18px); color:#E87840; font-weight:500; z-index:2;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     06  SKY PAPER — sky blue, Instrument Serif italic
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">06 — Sky Paper</div>
+<div class="slide">
+<div style="background:#EAF4FF; font-family:'Instrument Serif',serif; justify-content:center; align-items:center; text-align:center; padding:76px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="80" cy="80" r="50" fill="none" stroke="#5AABDC" stroke-width="2" stroke-dasharray="5 4"/>
+    <circle cx="420" cy="420" r="50" fill="none" stroke="#5AABDC" stroke-width="2" stroke-dasharray="5 4"/>
+    <path d="M300 40 Q320 20 340 40 Q360 60 380 40 Q400 20 420 40" fill="none" stroke="#5AABDC" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M80 300 Q100 280 120 300 Q140 320 160 300" fill="none" stroke="#5AABDC" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M340 430 Q360 410 380 430 Q400 450 420 430" fill="none" stroke="#5AABDC" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M230 30 L240 12 L250 30 L268 30 L254 42 L260 60 L250 48 L240 60 L246 42 L232 30 Z" fill="none" stroke="#3A8FBF" stroke-width="1.8" stroke-linejoin="round"/>
+    <circle cx="450" cy="160" r="8" fill="#5AABDC" opacity=".45"/>
+    <circle cx="466" cy="148" r="5" fill="#5AABDC" opacity=".3"/>
+    <rect x="30" y="380" width="42" height="42" rx="4" fill="none" stroke="#5AABDC" stroke-width="2" transform="rotate(-14 51 401)"/>
+    <line x1="30" y1="200" x2="56" y2="226" stroke="#5AABDC" stroke-width="2" stroke-linecap="round"/>
+    <line x1="56" y1="200" x2="30" y2="226" stroke="#5AABDC" stroke-width="2" stroke-linecap="round"/>
+    <path d="M200 465 C220 445 240 485 260 465 S300 445 320 465" fill="none" stroke="#5AABDC" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+  <div style="font-size:clamp(26px,4.2vw,54px); font-weight:400; font-style:italic; line-height:1.3; color:#0a2840; position:relative; z-index:2;">{slide_content}</div>
+  <div style="position:absolute; bottom:38px; font-size:clamp(13px,1.4vw,18px); color:#5AABDC; font-family:'Plus Jakarta Sans',sans-serif; z-index:2;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     07  ROSE PAPER — blush pink, Playfair Display
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">07 — Rose Paper</div>
+<div class="slide">
+<div style="background:#FFF0F3; font-family:'Playfair Display',serif; justify-content:center; align-items:flex-start; padding:72px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="430" cy="80" r="120" fill="none" stroke="#E87A9A" stroke-width="50" opacity=".12"/>
+    <circle cx="430" cy="80" r="70" fill="none" stroke="#E87A9A" stroke-width="2" stroke-dasharray="6 4"/>
+    <path d="M30 180 Q50 160 70 180 Q90 200 110 180 Q130 160 150 180" fill="none" stroke="#E87A9A" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M30 200 Q50 180 70 200 Q90 220 110 200" fill="none" stroke="#E87A9A" stroke-width="1.2" stroke-linecap="round" opacity=".4"/>
+    <path d="M230 30 L240 12 L250 30 L268 30 L254 42 L260 60 L250 48 L240 60 L246 42 L232 30 Z" fill="none" stroke="#C85070" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="460" cy="300" r="8" fill="#E87A9A" opacity=".5"/>
+    <circle cx="476" cy="288" r="5" fill="#E87A9A" opacity=".35"/>
+    <path d="M60 420 L80 396 L100 420 L80 444 Z" fill="none" stroke="#E87A9A" stroke-width="2.2"/>
+    <path d="M300 460 C320 438 340 478 360 460" fill="none" stroke="#C85070" stroke-width="2.2" stroke-linecap="round"/>
+    <rect x="432" y="380" width="44" height="44" rx="4" fill="none" stroke="#E87A9A" stroke-width="2" transform="rotate(20 454 402)"/>
+  </svg>
+  <div style="font-size:clamp(24px,3.8vw,50px); font-weight:700; line-height:1.25; color:#2e0a14; position:relative; z-index:2; max-width:85%;">{slide_content}</div>
+  <div style="position:absolute; bottom:38px; right:64px; font-size:clamp(12px,1.3vw,17px); color:#E87A9A; font-family:'Plus Jakarta Sans',sans-serif; z-index:2;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     08  LAVENDER FIELD — soft purple, Syne bold
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">08 — Lavender Field</div>
+<div class="slide">
+<div style="background:#F3EEFF; font-family:'Syne',sans-serif; justify-content:center; align-items:center; text-align:center; padding:70px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="250" cy="250" r="220" fill="none" stroke="#9B72E8" stroke-width="1.5" stroke-dasharray="7 5" opacity=".3"/>
+    <circle cx="250" cy="250" r="180" fill="none" stroke="#9B72E8" stroke-width="1" opacity=".15"/>
+    <path d="M60 60 Q80 40 100 60 Q120 80 140 60" fill="none" stroke="#7A52C8" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M360 60 Q380 40 400 60 Q420 80 440 60" fill="none" stroke="#7A52C8" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M60 440 Q80 420 100 440 Q120 460 140 440" fill="none" stroke="#7A52C8" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M360 440 Q380 420 400 440 Q420 460 440 440" fill="none" stroke="#7A52C8" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M240 30 L250 15 L260 30 L268 28 L262 40 L270 52 L250 44 L230 52 L238 40 L232 28 Z" fill="none" stroke="#9B72E8" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="460" cy="200" r="7" fill="#9B72E8" opacity=".5"/>
+    <circle cx="476" cy="188" r="4.5" fill="#9B72E8" opacity=".35"/>
+    <rect x="28" y="220" width="38" height="38" rx="4" fill="none" stroke="#9B72E8" stroke-width="2" transform="rotate(18 47 239)"/>
+    <path d="M420 380 Q440 360 430 400 Q420 440 450 420" fill="none" stroke="#7A52C8" stroke-width="2.2" stroke-linecap="round"/>
+  </svg>
+  <div style="font-size:clamp(24px,3.8vw,50px); font-weight:800; line-height:1.18; color:#1a0a38; position:relative; z-index:2;">{slide_content}</div>
+  <div style="position:absolute; bottom:38px; font-size:clamp(13px,1.4vw,18px); color:#9B72E8; font-weight:600; z-index:2;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     09  CHALK BOARD LIGHT — warm white, Architects Daughter handwritten
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">09 — Chalk & Paper</div>
+<div class="slide">
+<div style="background:#FFFEF8; font-family:'Architects Daughter',cursive; justify-content:center; align-items:center; text-align:center; padding:70px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <!-- rough border -->
+    <rect x="20" y="20" width="460" height="460" rx="6" fill="none" stroke="#4a3a2a" stroke-width="2.5" stroke-dasharray="12 6"/>
+    <!-- corner stars -->
+    <path d="M50 50 L56 38 L62 50 L74 50 L64 58 L68 70 L56 62 L44 70 L48 58 L38 50 Z" fill="none" stroke="#6a5040" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M450 50 L456 38 L462 50 L474 50 L464 58 L468 70 L456 62 L444 70 L448 58 L438 50 Z" fill="none" stroke="#6a5040" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M50 450 L56 438 L62 450 L74 450 L64 458 L68 470 L56 462 L44 470 L48 458 L38 450 Z" fill="none" stroke="#6a5040" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M450 450 L456 438 L462 450 L474 450 L464 458 L468 470 L456 462 L444 470 L448 458 L438 450 Z" fill="none" stroke="#6a5040" stroke-width="1.8" stroke-linejoin="round"/>
+    <!-- squiggle top -->
+    <path d="M140 55 Q160 40 180 55 Q200 70 220 55 Q240 40 260 55 Q280 70 300 55 Q320 40 340 55 Q360 70 380 55" fill="none" stroke="#8a7060" stroke-width="1.8" stroke-linecap="round" opacity=".5"/>
+    <!-- small dots scattered -->
+    <circle cx="130" cy="130" r="4" fill="#6a5040" opacity=".25"/>
+    <circle cx="370" cy="130" r="4" fill="#6a5040" opacity=".25"/>
+    <circle cx="130" cy="370" r="4" fill="#6a5040" opacity=".25"/>
+    <circle cx="370" cy="370" r="4" fill="#6a5040" opacity=".25"/>
+  </svg>
+  <div style="font-size:clamp(24px,3.6vw,46px); line-height:1.4; color:#2a1e10; position:relative; z-index:2;">{slide_content}</div>
+  <div style="position:absolute; bottom:42px; font-size:clamp(14px,1.5vw,20px); color:#8a7060; z-index:2;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     10  CITRUS PUNCH — vivid orange, Inter Tight ultra-bold
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">10 — Citrus Punch</div>
+<div class="slide">
+<div style="background:#FF6B1A; font-family:'Inter Tight',sans-serif; justify-content:flex-end; align-items:flex-start; padding:60px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="0" cy="0" r="280" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+    <circle cx="0" cy="0" r="200" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+    <circle cx="500" cy="500" r="280" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+    <circle cx="500" cy="500" r="200" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+    <path d="M380 60 Q400 40 420 60 Q440 80 460 60 Q480 40 500 60" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="40" y="50" width="44" height="44" rx="4" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2.2" transform="rotate(18 62 72)"/>
+    <circle cx="460" cy="160" r="8" fill="rgba(255,255,255,0.2)"/>
+    <circle cx="476" cy="148" r="5" fill="rgba(255,255,255,0.15)"/>
+    <path d="M40 300 Q60 280 80 300 Q100 320 120 300" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+  <div style="font-size:clamp(28px,4.4vw,60px); font-weight:900; line-height:1.0; color:#fff; position:relative; z-index:2; letter-spacing:-2px; text-transform:uppercase; max-width:80%;">{slide_content}</div>
+  <div style="margin-top:18px; font-size:clamp(12px,1.3vw,17px); color:rgba(255,255,255,0.55); font-weight:400; z-index:2; letter-spacing:0.1em;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     11  GRID PAPER — graph paper, Space Mono, blue ink
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">11 — Grid Paper</div>
+<div class="slide">
+<div style="background:#F8FAFF; font-family:'Space Mono',monospace; justify-content:center; align-items:flex-start; padding:72px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="grid" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse">
+        <path d="M 25 0 L 0 0 0 25" fill="none" stroke="#C8D8F0" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="500" height="500" fill="url(#grid)"/>
+    <!-- bold accent lines -->
+    <line x1="0" y1="0" x2="500" y2="0" stroke="#A0B8E0" stroke-width="1"/>
+    <line x1="0" y1="0" x2="0" y2="500" stroke="#A0B8E0" stroke-width="1"/>
+    <!-- plotted points -->
+    <circle cx="120" cy="120" r="5" fill="#3A6FC8"/>
+    <circle cx="200" cy="90" r="5" fill="#3A6FC8"/>
+    <circle cx="320" cy="140" r="5" fill="#3A6FC8"/>
+    <circle cx="400" cy="100" r="5" fill="#3A6FC8"/>
+    <polyline points="120,120 200,90 320,140 400,100" fill="none" stroke="#3A6FC8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <!-- annotation box -->
+    <rect x="350" y="360" width="120" height="50" rx="3" fill="none" stroke="#3A6FC8" stroke-width="1.5"/>
+    <line x1="340" y1="380" x2="352" y2="380" stroke="#3A6FC8" stroke-width="1.5"/>
+    <!-- dot grid bottom area -->
+    <circle cx="120" cy="420" r="3" fill="#A0B8E0"/>
+    <circle cx="145" cy="420" r="3" fill="#A0B8E0"/>
+    <circle cx="170" cy="420" r="3" fill="#A0B8E0"/>
+  </svg>
+  <div style="font-size:clamp(20px,2.8vw,38px); font-weight:700; line-height:1.45; color:#0a1a38; position:relative; z-index:2; max-width:90%;">{slide_content}</div>
+  <div style="position:absolute; bottom:38px; left:72px; font-size:clamp(11px,1.2vw,15px); color:#3A6FC8; z-index:2;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     12  BUTTER SUNDAY — deep butter yellow, Fraunces italic
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">12 — Butter Sunday</div>
+<div class="slide">
+<div style="background:#FFFBEA; font-family:'Fraunces',serif; justify-content:center; align-items:center; text-align:center; padding:76px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="250" cy="250" r="215" fill="none" stroke="#D4AA40" stroke-width="1.5" stroke-dasharray="7 5" opacity=".4"/>
+    <path d="M80 80 C 80 50 120 50 120 80" fill="none" stroke="#C4922A" stroke-width="2" stroke-linecap="round"/>
+    <path d="M380 80 C 380 50 420 50 420 80" fill="none" stroke="#C4922A" stroke-width="2" stroke-linecap="round"/>
+    <path d="M80 420 C 80 450 120 450 120 420" fill="none" stroke="#C4922A" stroke-width="2" stroke-linecap="round"/>
+    <path d="M380 420 C 380 450 420 450 420 420" fill="none" stroke="#C4922A" stroke-width="2" stroke-linecap="round"/>
+    <line x1="240" y1="28" x2="260" y2="28" stroke="#C4922A" stroke-width="2"/>
+    <line x1="250" y1="18" x2="250" y2="38" stroke="#C4922A" stroke-width="2"/>
+    <line x1="240" y1="472" x2="260" y2="472" stroke="#C4922A" stroke-width="2"/>
+    <line x1="250" y1="462" x2="250" y2="482" stroke="#C4922A" stroke-width="2"/>
+    <path d="M40 200 Q55 185 70 200 Q85 215 100 200" fill="none" stroke="#D4AA40" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+    <path d="M400 300 Q415 285 430 300 Q445 315 460 300" fill="none" stroke="#D4AA40" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+    <circle cx="460" cy="160" r="6" fill="#D4AA40" opacity=".5"/>
+    <circle cx="476" cy="148" r="3.5" fill="#C4922A" opacity=".4"/>
+  </svg>
+  <div style="font-size:clamp(24px,3.8vw,52px); font-weight:300; font-style:italic; line-height:1.35; color:#2a1e00; position:relative; z-index:2;">{slide_content}</div>
+  <div style="position:absolute; bottom:38px; font-size:clamp(12px,1.3vw,17px); color:#C4922A; letter-spacing:0.18em; text-transform:uppercase; font-family:'Plus Jakarta Sans',sans-serif; z-index:2;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     13  CORAL COAST — coral red, Kanit bold, bottom-left
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">13 — Coral Coast</div>
+<div class="slide">
+<div style="background:#FFF5F4; font-family:'Kanit',sans-serif; justify-content:flex-end; align-items:flex-start; padding:60px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="450" cy="50" r="180" fill="none" stroke="#F07060" stroke-width="70" opacity=".1"/>
+    <circle cx="450" cy="50" r="100" fill="none" stroke="#D04030" stroke-width="2" stroke-dasharray="7 5" opacity=".3"/>
+    <path d="M30 150 Q50 130 70 150 Q90 170 110 150 Q130 130 150 150" fill="none" stroke="#F07060" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M30 170 Q50 150 70 170 Q90 190 110 170" fill="none" stroke="#F07060" stroke-width="1.2" stroke-linecap="round" opacity=".4"/>
+    <rect x="430" y="380" width="46" height="46" rx="4" fill="none" stroke="#F07060" stroke-width="2.2" transform="rotate(22 453 403)"/>
+    <circle cx="38" cy="400" r="9" fill="#F07060" opacity=".4"/>
+    <circle cx="56" cy="388" r="5.5" fill="#D04030" opacity=".3"/>
+    <path d="M280 455 C300 433 320 473 340 455" fill="none" stroke="#D04030" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M440 270 Q460 250 450 290 Q440 330 470 310" fill="none" stroke="#F07060" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="220" y1="40" x2="246" y2="66" stroke="#F07060" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="246" y1="40" x2="220" y2="66" stroke="#F07060" stroke-width="2.2" stroke-linecap="round"/>
+  </svg>
+  <div style="font-size:clamp(26px,4vw,54px); font-weight:700; line-height:1.1; color:#1a0600; position:relative; z-index:2; max-width:84%; letter-spacing:-0.5px;">{slide_content}</div>
+  <div style="margin-top:18px; font-size:clamp(12px,1.3vw,17px); color:#F07060; font-weight:300; z-index:2;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     14  PAPER BLUE — classic newspaper blue, Raleway
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">14 — Paper Blue</div>
+<div class="slide">
+<div style="background:#F0F6FF; font-family:'Raleway',sans-serif; justify-content:center; align-items:flex-start; padding:72px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <!-- rule lines like a newspaper -->
+    <line x1="0" y1="28" x2="500" y2="28" stroke="#4A78C8" stroke-width="2.5"/>
+    <line x1="0" y1="38" x2="500" y2="38" stroke="#4A78C8" stroke-width="0.5"/>
+    <line x1="0" y1="472" x2="500" y2="472" stroke="#4A78C8" stroke-width="2.5"/>
+    <!-- column rule right side -->
+    <line x1="480" y1="50" x2="480" y2="450" stroke="#A0B8E0" stroke-width="0.5"/>
+    <path d="M40 80 Q60 60 80 80 Q100 100 120 80 Q140 60 160 80" fill="none" stroke="#4A78C8" stroke-width="2" stroke-linecap="round" opacity=".4"/>
+    <circle cx="440" cy="200" r="32" fill="none" stroke="#4A78C8" stroke-width="1.5" stroke-dasharray="5 4" opacity=".4"/>
+    <circle cx="440" cy="200" r="18" fill="none" stroke="#4A78C8" stroke-width="1" opacity=".25"/>
+    <path d="M40 380 L58 358 L76 380 L58 402 Z" fill="none" stroke="#4A78C8" stroke-width="2" opacity=".5"/>
+    <circle cx="420" cy="380" r="7" fill="#4A78C8" opacity=".3"/>
+    <circle cx="438" cy="368" r="4" fill="#4A78C8" opacity=".22"/>
+    <path d="M160 460 C180 440 200 480 220 460 S260 440 280 460" fill="none" stroke="#4A78C8" stroke-width="1.8" stroke-linecap="round" opacity=".4"/>
+  </svg>
+  <div style="font-size:clamp(24px,3.8vw,52px); font-weight:800; line-height:1.18; color:#0a1a3a; position:relative; z-index:2; max-width:88%;">{slide_content}</div>
+  <div style="position:absolute; bottom:44px; right:64px; font-size:clamp(12px,1.3vw,17px); color:#4A78C8; font-weight:600; z-index:2; letter-spacing:0.08em;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     15  FOREST WALK — warm sage, DM Serif Display, large italic
+════════════════════════════════════════════════ -->
+<div class="template-wrap">
+<div class="label">15 — Forest Walk</div>
+<div class="slide">
+<div style="background:#EEF4EC; font-family:'DM Serif Display',serif; justify-content:center; align-items:center; text-align:center; padding:78px;">
+  <svg class="doodles" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="250" cy="250" r="220" fill="none" stroke="#7AAA6A" stroke-width="1.5" stroke-dasharray="7 5" opacity=".35"/>
+    <circle cx="70" cy="70" r="40" fill="none" stroke="#5A8A4A" stroke-width="2" stroke-dasharray="5 4" opacity=".4"/>
+    <circle cx="430" cy="430" r="40" fill="none" stroke="#5A8A4A" stroke-width="2" stroke-dasharray="5 4" opacity=".4"/>
+    <path d="M340 50 Q360 30 380 50 Q400 70 420 50 Q440 30 460 50" fill="none" stroke="#7AAA6A" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M40 340 Q60 320 80 340 Q100 360 120 340 Q140 320 160 340" fill="none" stroke="#7AAA6A" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M220 30 L230 12 L240 30 L258 30 L244 40 L250 58 L230 46 L210 58 L216 40 L202 30 Z" fill="none" stroke="#5A8A4A" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M280 470 L290 452 L300 470 L318 470 L304 480 L310 498 L290 486 L270 498 L276 480 L262 470 Z" fill="none" stroke="#5A8A4A" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="460" cy="170" r="7" fill="#7AAA6A" opacity=".5"/>
+    <circle cx="476" cy="158" r="4.5" fill="#5A8A4A" opacity=".4"/>
+    <rect x="28" y="380" width="44" height="44" rx="5" fill="none" stroke="#7AAA6A" stroke-width="2" transform="rotate(-16 50 402)"/>
+  </svg>
+  <div style="font-size:clamp(24px,3.8vw,52px); font-weight:400; font-style:italic; line-height:1.3; color:#0e240a; position:relative; z-index:2;">{slide_content}</div>
+  <div style="position:absolute; bottom:38px; font-size:clamp(12px,1.3vw,16px); color:#7AAA6A; letter-spacing:0.2em; text-transform:uppercase; font-family:'Plus Jakarta Sans',sans-serif; z-index:2;">{slide_num} / {total_slides}</div>
+</div>
+</div>
+</div>
+
+
+</div>
+</body>
+</html>
