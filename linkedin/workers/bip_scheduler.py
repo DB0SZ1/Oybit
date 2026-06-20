@@ -187,7 +187,7 @@ def run_bip_batch_cycle():
                     x_content = x_json.get("post", "")
                 
                 if x_content:
-                    db.add(Post(
+                    x_post = Post(
                         account="twitter",
                         status="draft",
                         hook_type=x_json.get("type", "build_update"),
@@ -195,7 +195,13 @@ def run_bip_batch_cycle():
                         content_text=f"{x_content}\n\n[NOTE: {x_json.get('note', '')}]",
                         format="thread" if x_json.get("is_thread") else "text",
                         source="bip_scheduler"
-                    ))
+                    )
+                    db.add(x_post)
+                    db.flush() # get ID
+                    
+                    from scheduler_worker.queue import SchedulerQueue
+                    from datetime import datetime
+                    SchedulerQueue(db).add_job(x_post.id, "twitter", datetime.utcnow())
             except Exception as e:
                 logger.error(f"Failed to generate X post: {e}")
 
@@ -213,7 +219,7 @@ def run_bip_batch_cycle():
                 
                 reddit_content = reddit_json.get("post", "")
                 if reddit_content:
-                    db.add(Post(
+                    r_post = Post(
                         account="reddit",
                         status="draft",
                         hook_type=reddit_json.get("type", post_type),
@@ -221,7 +227,13 @@ def run_bip_batch_cycle():
                         content_text=reddit_content,
                         format="text",
                         source="bip_scheduler"
-                    ))
+                    )
+                    db.add(r_post)
+                    db.flush() # get ID
+                    
+                    from scheduler_worker.queue import SchedulerQueue
+                    from datetime import datetime
+                    SchedulerQueue(db).add_job(r_post.id, "reddit", datetime.utcnow())
             except Exception as e:
                 logger.error(f"Failed to generate Reddit BIP post: {e}")
 
@@ -231,7 +243,7 @@ def run_bip_batch_cycle():
             "reason": f"Generated drafts for {post_type} across LinkedIn, X, and Reddit",
         }))
         db.commit()
-        logger.info("✅ Successfully generated BIP Post Drafts!")
+        logger.info("✅ Successfully generated BIP Post Drafts and Scheduled them!")
         
         # Fully autonomous publishing
         from api_routes.mirofish import run_debate_simulation
@@ -260,12 +272,17 @@ def run_bip_batch_cycle():
                 else:
                     new_post.status = "failed"
                     logger.error(f"Failed to publish to LinkedIn: {result.get('error')}")
+                    # Schedule it for Twilio fallback
+                    SchedulerQueue(db).add_job(new_post.id, "linkedin", datetime.utcnow())
             except Exception as e:
                 new_post.status = "failed"
                 logger.error(f"Exception publishing to LinkedIn: {e}")
+                SchedulerQueue(db).add_job(new_post.id, "linkedin", datetime.utcnow())
             db.commit()
         else:
-            logger.warning("BIP Post failed MiroFish gate. Left as draft.")
+            logger.warning("BIP Post failed MiroFish gate. Left as draft. Scheduling for Twilio review.")
+            SchedulerQueue(db).add_job(new_post.id, "linkedin", datetime.utcnow())
+            db.commit()
         
     except Exception as e:
         logger.error(f"Failed to generate BIP post: {e}")

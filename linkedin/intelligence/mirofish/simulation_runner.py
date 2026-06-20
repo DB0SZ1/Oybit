@@ -67,7 +67,10 @@ def _get_ai_reactions(agents_batch: list, narrative_text: str, platform: str) ->
     One API call covers multiple agents to minimize cost.
     """
     try:
-        from content.generator import call_openrouter_raw
+        import os
+        import requests
+        api_key = os.getenv("OPENROUTER_API_KEY")
+        model = os.getenv("OPENROUTER_DEFAULT_MODEL", "google/gemini-2.5-flash")
 
         agent_descriptions = []
         for a in agents_batch:
@@ -95,7 +98,23 @@ def _get_ai_reactions(agents_batch: list, narrative_text: str, platform: str) ->
             f'Never omit the key name. Example: {{"agent_id": "agent_001", "reaction": ...}}.'
         )
 
-        result = call_openrouter_raw(prompt, max_tokens=400)
+        resp = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "HTTP-Referer": "https://oybit.nyvora.com",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": model,
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": 400,
+                "temperature": 0.7
+            },
+            timeout=30
+        )
+        resp.raise_for_status()
+        result = resp.json()["choices"][0]["message"]["content"]
 
         # Parse JSON from response
         # Handle cases where AI wraps in markdown code blocks
