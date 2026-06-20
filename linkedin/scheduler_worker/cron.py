@@ -65,7 +65,10 @@ def run_scheduler():
     Exits cleanly on SIGTERM.
     """
     global _running
-    signal.signal(signal.SIGTERM, _handle_sigterm)
+    try:
+        signal.signal(signal.SIGTERM, _handle_sigterm)
+    except ValueError:
+        pass # Running in a background thread where signals aren't allowed
 
     interval_seconds = SCHEDULER_INTERVAL
     logger.info(f"Scheduler started — dispatching every {interval_seconds}s")

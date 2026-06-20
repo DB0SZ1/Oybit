@@ -89,9 +89,40 @@ def start_worker():
     logger.info("Starting standalone isolated worker...")
     
     # Initialize Database Tables
-    from db.models import create_all_tables
+    from db.models import create_all_tables, get_engine
     create_all_tables()
-    logger.info("Database tables created/verified")
+    
+    # Emergency patch for existing Postgres DBs
+    try:
+        with get_engine().begin() as conn:
+            from sqlalchemy import text
+            # Ignore errors if columns already exist
+            queries = [
+                "ALTER TABLE posts ADD COLUMN target_subreddit VARCHAR(100);",
+                "ALTER TABLE posts ADD COLUMN twilio_notified BOOLEAN DEFAULT FALSE;",
+                "ALTER TABLE posts ADD COLUMN post_type VARCHAR;",
+                "ALTER TABLE posts ADD COLUMN followers_at_post_time INTEGER;",
+                "ALTER TABLE posts ADD COLUMN normalized_engagement_score FLOAT;",
+                "ALTER TABLE posts ADD COLUMN post_publish_verified BOOLEAN DEFAULT FALSE;",
+                "ALTER TABLE posts ADD COLUMN sub_topic VARCHAR;",
+                "ALTER TABLE posts ADD COLUMN emotional_tone VARCHAR;",
+                "ALTER TABLE posts ADD COLUMN audience_segment VARCHAR;",
+                "ALTER TABLE posts ADD COLUMN source VARCHAR DEFAULT 'system';",
+                "ALTER TABLE posts ADD COLUMN poll_question VARCHAR;",
+                "ALTER TABLE posts ADD COLUMN poll_options JSON;",
+                "ALTER TABLE posts ADD COLUMN poll_duration_days INTEGER;",
+                "ALTER TABLE posts ADD COLUMN calendar_context JSON;",
+                "ALTER TABLE posts ADD COLUMN calendar_engagement_modifier FLOAT;"
+            ]
+            for q in queries:
+                try:
+                    conn.execute(text(q))
+                except Exception:
+                    pass
+    except Exception as e:
+        logger.warning(f"DB Patch failed or not needed: {e}")
+
+    logger.info("Database tables created/verified/patched")
     
     # Import existing workers
     from workers.mirofish_worker import start_mirofish_loop
