@@ -132,3 +132,103 @@ Details:
     response.raise_for_status()
     data = response.json()
     return data["choices"][0]["message"]["content"].strip()
+
+
+def generate_x_bip_post(log_entry: dict, prompt_text: str) -> dict:
+    """
+    Generates an X (Twitter) Build-in-Public post using the detailed system prompt.
+    Returns a JSON dict.
+    """
+    api_key = os.getenv("OPENROUTER_API_KEY")
+    model = os.getenv("OPENROUTER_DEFAULT_MODEL", "google/gemini-2.5-flash")
+    
+    if not api_key:
+        raise ValueError("OPENROUTER_API_KEY is not set.")
+
+    user_prompt = f"""Here is my latest Build Log entry for this commit:
+Title: {log_entry['title']}
+Tags: {', '.join(log_entry['tags'])}
+Details:
+{log_entry['details']}
+
+Follow the system prompt precisely and generate the JSON payload for X."""
+
+    response = requests.post(
+        "https://openrouter.ai/api/v1/chat/completions",
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "HTTP-Referer": "https://oybit.nyvora.com",
+            "Content-Type": "application/json",
+        },
+        json={
+            "model": model,
+            "messages": [
+                {"role": "system", "content": prompt_text},
+                {"role": "user", "content": user_prompt}
+            ],
+            "response_format": {"type": "json_object"},
+            "max_tokens": 1500,
+            "temperature": 0.7
+        },
+        timeout=30
+    )
+    
+    response.raise_for_status()
+    data = response.json()
+    result_text = data["choices"][0]["message"]["content"].strip()
+    if result_text.startswith("```json"):
+        result_text = result_text[7:-3]
+    elif result_text.startswith("```"):
+        result_text = result_text[3:-3]
+        
+    return json.loads(result_text.strip())
+
+
+def generate_reddit_bip_post(log_entry: dict, prompt_text: str) -> dict:
+    """
+    Generates a Reddit Build-in-Public post using the detailed system prompt.
+    Returns a JSON dict.
+    """
+    api_key = os.getenv("OPENROUTER_API_KEY")
+    model = os.getenv("OPENROUTER_DEFAULT_MODEL", "google/gemini-2.5-flash")
+    
+    if not api_key:
+        raise ValueError("OPENROUTER_API_KEY is not set.")
+
+    user_prompt = f"""Here is my latest Build Log entry for this commit:
+Title: {log_entry['title']}
+Tags: {', '.join(log_entry['tags'])}
+Details:
+{log_entry['details']}
+
+Follow the system prompt precisely and generate the JSON payload for Reddit."""
+
+    response = requests.post(
+        "https://openrouter.ai/api/v1/chat/completions",
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "HTTP-Referer": "https://oybit.nyvora.com",
+            "Content-Type": "application/json",
+        },
+        json={
+            "model": model,
+            "messages": [
+                {"role": "system", "content": prompt_text},
+                {"role": "user", "content": user_prompt}
+            ],
+            "response_format": {"type": "json_object"},
+            "max_tokens": 2000,
+            "temperature": 0.7
+        },
+        timeout=30
+    )
+    
+    response.raise_for_status()
+    data = response.json()
+    result_text = data["choices"][0]["message"]["content"].strip()
+    if result_text.startswith("```json"):
+        result_text = result_text[7:-3]
+    elif result_text.startswith("```"):
+        result_text = result_text[3:-3]
+        
+    return json.loads(result_text.strip())

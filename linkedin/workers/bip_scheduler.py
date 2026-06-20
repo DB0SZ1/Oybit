@@ -106,7 +106,7 @@ def run_bip_batch_cycle():
             with open(persona_path, "r", encoding="utf-8") as f:
                 persona_text = f.read()
 
-        logger.info(f"Sending {post_type} progress to LLM...")
+        logger.info(f"Sending {post_type} progress to LLM for LinkedIn...")
         generated_content = generate_build_in_public_post(log_entry, persona_text, post_type=post_type)
         
         new_post = Post(
@@ -120,13 +120,69 @@ def run_bip_batch_cycle():
         )
         db.add(new_post)
         
+        # Load X and Reddit Prompts
+        x_prompt_path = os.path.join(os.getcwd(), "persona_data", "x_bip_prompt.txt")
+        reddit_prompt_path = os.path.join(os.getcwd(), "persona_data", "reddit_bip_prompt.txt")
+        x_prompt_text = ""
+        reddit_prompt_text = ""
+        if os.path.exists(x_prompt_path):
+            with open(x_prompt_path, "r", encoding="utf-8") as f:
+                x_prompt_text = f.read()
+        if os.path.exists(reddit_prompt_path):
+            with open(reddit_prompt_path, "r", encoding="utf-8") as f:
+                reddit_prompt_text = f.read()
+
+        # X (Twitter) Post
+        if x_prompt_text:
+            logger.info("Sending batched progress to LLM for X (Twitter)...")
+            try:
+                from services.llm import generate_x_bip_post
+                x_json = generate_x_bip_post(log_entry, x_prompt_text)
+                if x_json.get("is_thread") and x_json.get("thread_posts"):
+                    x_content = "\n\n---\n\n".join(x_json["thread_posts"])
+                else:
+                    x_content = x_json.get("post", "")
+                
+                if x_content:
+                    db.add(Post(
+                        account="twitter",
+                        status="draft",
+                        hook_type=x_json.get("type", "build_update"),
+                        topic_pillar="BIP: Batched Sprint",
+                        content_text=f"{x_content}\n\n[NOTE: {x_json.get('note', '')}]",
+                        format="thread" if x_json.get("is_thread") else "text",
+                        source="bip_scheduler"
+                    ))
+            except Exception as e:
+                logger.error(f"Failed to generate X post: {e}")
+
+        # Reddit Post
+        if reddit_prompt_text:
+            logger.info("Sending batched progress to LLM for Reddit...")
+            try:
+                from services.llm import generate_reddit_bip_post
+                reddit_json = generate_reddit_bip_post(log_entry, reddit_prompt_text)
+                reddit_content = f"# {reddit_json.get('title', 'Build Update')}\n\n{reddit_json.get('body', '')}\n\n**Ask**: {reddit_json.get('genuine_ask', '')}"
+                
+                db.add(Post(
+                    account="reddit",
+                    status="draft",
+                    hook_type=f"r/{reddit_json.get('subreddit', 'entrepreneur')}",
+                    topic_pillar="BIP: Batched Sprint",
+                    content_text=f"{reddit_content}\n\n[NOTE: {reddit_json.get('note', '')}]",
+                    format="text",
+                    source="bip_scheduler"
+                ))
+            except Exception as e:
+                logger.error(f"Failed to generate Reddit post: {e}")
+
         db.add(AuditLog(action="BIP Scheduler", details={
             "status": "success",
             "step": "bip_batch_generation",
-            "reason": f"Generated draft for {post_type}",
+            "reason": f"Generated drafts for {post_type} across LinkedIn, X, and Reddit",
         }))
         db.commit()
-        logger.info("✅ Successfully generated BIP Post Draft!")
+        logger.info("✅ Successfully generated BIP Post Drafts!")
         
         # Fully autonomous publishing
         from api_routes.mirofish import run_debate_simulation
