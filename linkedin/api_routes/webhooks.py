@@ -89,8 +89,10 @@ from pydantic import BaseModel
 class BuildLogPayload(BaseModel):
     summary: str
 
+from fastapi import BackgroundTasks
+
 @router.post("/build-log")
-async def build_log_webhook(payload: BuildLogPayload, request: Request):
+async def build_log_webhook(payload: BuildLogPayload, request: Request, background_tasks: BackgroundTasks):
     """
     Receives sanitized build log entries from remote standalone_watcher.py scripts.
     """
@@ -123,10 +125,17 @@ async def build_log_webhook(payload: BuildLogPayload, request: Request):
         with open(log_path, "w", encoding="utf-8") as f:
             f.write(content)
             
-        # Optional: trigger bip_scheduler here immediately, or let the cron job pick it up
-        return {"status": "success", "message": "Build log appended securely."}
+        # Trigger the LLM generator immediately in the background instead of waiting for the schedule!
+        from workers.bip_scheduler import run_bip_batch_cycle
+        background_tasks.add_task(run_bip_batch_cycle)
+        
+        return {"status": "success", "message": "Build log appended. LLM has been triggered in the background to generate posts."}
     else:
         # If no build log exists, just create it
         with open(log_path, "w", encoding="utf-8") as f:
             f.write(f"## UNPOSTED PROGRESS\n\n{entry}")
-        return {"status": "success", "message": "Build log created."}
+            
+        from workers.bip_scheduler import run_bip_batch_cycle
+        background_tasks.add_task(run_bip_batch_cycle)
+        
+        return {"status": "success", "message": "Build log created. LLM has been triggered in the background."}
