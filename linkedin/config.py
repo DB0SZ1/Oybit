@@ -95,3 +95,6 @@ TOKEN_REFRESH_INTERVAL = int(os.getenv("TOKEN_REFRESH_INTERVAL", "7200"))
 # Paths
 PERSONA_DIR = os.getenv("PERSONA_DIR", os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "personas", "ahmad"))
 RENDER_OUTPUT_DIR = os.getenv("RENDER_OUTPUT_DIR", os.path.join(os.path.dirname(os.path.dirname(__file__)), "tmp", "oybit_renders"))
+
+# Scheduler
+SCHEDULER_INTERVAL = int(os.getenv("SCHEDULER_INTERVAL", "60"))
