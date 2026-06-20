@@ -85,7 +85,7 @@ def run_dispatch_cycle(queue: SchedulerQueue = None, dry_run: bool = False,
                 db = queue._get_db()
                 try:
                     db.execute(
-                        __import__('sqlalchemy').text("UPDATE posts SET twilio_notified = 1 WHERE id = :id"),
+                        __import__('sqlalchemy').text("UPDATE posts SET twilio_notified = TRUE WHERE id = :id"),
                         {"id": post_id}
                     )
                     db.commit()
