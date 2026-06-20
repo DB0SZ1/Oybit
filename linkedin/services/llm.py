@@ -72,10 +72,9 @@ CRITICAL RULES:
         return f"Just spent 4 hours fighting with {topic} and the results were unexpected. Here's what I learned building this in public... 🧵"
 
 
-def generate_build_in_public_post(log_entry: dict, persona_text: str, post_type: str = "new_progress") -> str:
+def generate_build_in_public_post(log_entry: dict, persona_text: str, day_number: int, post_type: str) -> str:
     """
-    Generates a deeply contextual Build-in-Public post.
-    post_type can be "new_progress" or "reflection".
+    Generates a deeply contextual Build-in-Public post for LinkedIn using the new strategy.
     """
     api_key = os.getenv("OPENROUTER_API_KEY")
     model = os.getenv("OPENROUTER_DEFAULT_MODEL", "google/gemini-2.5-flash")
@@ -83,24 +82,11 @@ def generate_build_in_public_post(log_entry: dict, persona_text: str, post_type:
     if not api_key:
         raise ValueError("OPENROUTER_API_KEY is not set.")
 
-    if post_type == "new_progress":
-        system_focus = "3. You MUST seamlessly integrate the technical details and struggle provided in the user prompt.\n4. Translate the raw technical details into an engaging story about WHY this matters, the problem it solves, and what you learned."
-        user_focus = "Write my LinkedIn post about this progress update."
-    else:
-        system_focus = "3. You MUST reflect deeply on the technical details provided, which represents your LAST completed feature.\n4. Write a high-value, 'learnable' post sharing a major lesson, an architectural decision, or a deep dive into why this feature is a game-changer, even if you didn't write new code today."
-        user_focus = "Write a reflective, high-value educational LinkedIn post about this feature and what I learned."
-
-    system_prompt = f"""You are a startup founder and engineer building your product in public on LinkedIn.
-Here is your Persona document that dictates your exact Voice, Tone, and Hard Stops:
-
-{persona_text}
-
-CRITICAL RULES:
-1. Write EXACTLY ONE post. No metadata, no introduction, no "Here is your post:".
-2. Write a LONG-FORM, story-driven post (at least 200 words). Use whitespace.
-{system_focus}
-5. If there are tags provided, weave the concepts of those tags into the narrative naturally. Do NOT just dump hashtags at the end.
-"""
+    prompt_path = os.path.join(os.getcwd(), "persona_data", "linkedin_bip_prompt.txt")
+    system_prompt = ""
+    if os.path.exists(prompt_path):
+        with open(prompt_path, "r", encoding="utf-8") as f:
+            system_prompt = f.read()
 
     user_prompt = f"""Here is my latest Build Log entry for this feature:
 Title: {log_entry['title']}
@@ -108,7 +94,10 @@ Tags: {', '.join(log_entry['tags'])}
 Details:
 {log_entry['details']}
 
-{user_focus}"""
+INSTRUCTIONS:
+Today is Day {day_number} of 30.
+You must write a "{post_type}" post exactly following the formula defined in the system prompt for this specific type.
+DO NOT output any metadata, JSON, or "Here is your post". Just the raw post text ready to be published on LinkedIn."""
 
     response = requests.post(
         "https://openrouter.ai/api/v1/chat/completions",
@@ -134,7 +123,7 @@ Details:
     return data["choices"][0]["message"]["content"].strip()
 
 
-def generate_x_bip_post(log_entry: dict, prompt_text: str) -> dict:
+def generate_x_bip_post(log_entry: dict, prompt_text: str, day_number: int, post_type: str) -> dict:
     """
     Generates an X (Twitter) Build-in-Public post using the detailed system prompt.
     Returns a JSON dict.
@@ -151,6 +140,9 @@ Tags: {', '.join(log_entry['tags'])}
 Details:
 {log_entry['details']}
 
+INSTRUCTIONS:
+Today is Day {day_number} of 30.
+You must write a "{post_type}" post exactly following the formula defined in the system prompt for this specific type.
 Follow the system prompt precisely and generate the JSON payload for X."""
 
     response = requests.post(
@@ -184,7 +176,7 @@ Follow the system prompt precisely and generate the JSON payload for X."""
     return json.loads(result_text.strip())
 
 
-def generate_reddit_bip_post(log_entry: dict, prompt_text: str) -> dict:
+def generate_reddit_bip_post(log_entry: dict, prompt_text: str, day_number: int, post_type: str) -> dict:
     """
     Generates a Reddit Build-in-Public post using the detailed system prompt.
     Returns a JSON dict.
@@ -201,6 +193,9 @@ Tags: {', '.join(log_entry['tags'])}
 Details:
 {log_entry['details']}
 
+INSTRUCTIONS:
+Today is Day {day_number} of 30.
+You must write a "{post_type}" post exactly following the formula defined in the system prompt for this specific type.
 Follow the system prompt precisely and generate the JSON payload for Reddit."""
 
     response = requests.post(

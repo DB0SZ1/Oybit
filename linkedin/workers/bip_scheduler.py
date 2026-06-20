@@ -77,42 +77,80 @@ def run_bip_batch_cycle():
     
     raw_progress, last_archived = extract_and_archive_unposted_progress()
     
-    post_type = "new_progress"
     details_to_use = raw_progress
 
     if not raw_progress:
         logger.info("No unposted progress found. Checking for archived fallback...")
         if last_archived and last_archived.strip() and last_archived.strip() != "*(Logs that have already been posted are moved here)*":
             logger.info("Using last archived progress for a reflection post.")
-            post_type = "reflection"
             details_to_use = last_archived
         else:
             logger.info("No unposted or archived progress found. Skipping cycle.")
             return
+
+    db: Session = SessionLocal()
+    try:
+        from db.models import BipState
+        from datetime import datetime
+        
+        # State Tracking
+        state = db.query(BipState).filter(BipState.project_name == "kronos").first()
+        if not state:
+            state = BipState(project_name="kronos", start_date=datetime.utcnow(), current_day=1)
+            db.add(state)
+            db.commit()
+            
+        # Determine Day Number
+        days_diff = (datetime.utcnow() - state.start_date).days
+        day_number = max(1, days_diff + 1)
+        state.current_day = day_number
+        
+        # Determine Post Type
+        post_type = "The Update"
+        if day_number == 1 and state.total_posts == 0:
+            post_type = "Day 1 Anchor"
+        elif day_number > 0 and day_number % 7 == 0:
+            post_type = "The Metric Drop"
+        else:
+            # Cycle through the other 3
+            cycle = ["The Update", "The Lesson Post", "The Behind-the-Scenes"]
+            last_idx = -1
+            if state.last_post_type in cycle:
+                last_idx = cycle.index(state.last_post_type)
+            post_type = cycle[(last_idx + 1) % len(cycle)]
+            
+        state.last_post_type = post_type
+        state.total_posts += 1
+        db.commit()
+        
+        logger.info(f"Determined State -> Day {day_number}, Type: {post_type}")
         
     # We have progress! Let's build a fake "latest_entry" payload for the LLM
-    log_entry = {
-        "title": "Batched Engineering Sprint" if post_type == "new_progress" else "Reflection on Last Build",
+        log_entry = {
+        "title": f"Sprint Day {day_number}",
         "tags": ["#BuildInPublic", "#Engineering", "#Shipping"],
         "details": details_to_use,
         "images": [] # For fully automated, we skip images or parse them from the log if they existed
     }
     
-    db: Session = SessionLocal()
-    try:
         persona_path = os.getenv("PERSONA_DIR", "./data/personas/ahmad") + "/persona.md"
         persona_text = ""
         if os.path.exists(persona_path):
             with open(persona_path, "r", encoding="utf-8") as f:
                 persona_text = f.read()
 
-        logger.info(f"Sending {post_type} progress to LLM for LinkedIn...")
-        generated_content = generate_build_in_public_post(log_entry, persona_text, post_type=post_type)
+        logger.info(f"Sending progress to LLM for LinkedIn...")
+        generated_content = generate_build_in_public_post(
+            log_entry=log_entry, 
+            persona_text=persona_text, 
+            day_number=day_number, 
+            post_type=post_type
+        )
         
         new_post = Post(
             account="linkedin",
             status="draft", 
-            hook_type="Technical Storytelling",
+            hook_type=post_type,
             topic_pillar="BIP: Batched Sprint",
             content_text=generated_content,
             format="thread",
@@ -137,7 +175,12 @@ def run_bip_batch_cycle():
             logger.info("Sending batched progress to LLM for X (Twitter)...")
             try:
                 from services.llm import generate_x_bip_post
-                x_json = generate_x_bip_post(log_entry, x_prompt_text)
+                x_json = generate_x_bip_post(
+                    log_entry=log_entry, 
+                    prompt_text=x_prompt_text,
+                    day_number=day_number,
+                    post_type=post_type
+                )
                 if x_json.get("is_thread") and x_json.get("thread_posts"):
                     x_content = "\n\n---\n\n".join(x_json["thread_posts"])
                 else:
@@ -161,20 +204,26 @@ def run_bip_batch_cycle():
             logger.info("Sending batched progress to LLM for Reddit...")
             try:
                 from services.llm import generate_reddit_bip_post
-                reddit_json = generate_reddit_bip_post(log_entry, reddit_prompt_text)
-                reddit_content = f"# {reddit_json.get('title', 'Build Update')}\n\n{reddit_json.get('body', '')}\n\n**Ask**: {reddit_json.get('genuine_ask', '')}"
+                reddit_json = generate_reddit_bip_post(
+                    log_entry=log_entry, 
+                    prompt_text=reddit_prompt_text,
+                    day_number=day_number,
+                    post_type=post_type
+                )
                 
-                db.add(Post(
-                    account="reddit",
-                    status="draft",
-                    hook_type=f"r/{reddit_json.get('subreddit', 'entrepreneur')}",
-                    topic_pillar="BIP: Batched Sprint",
-                    content_text=f"{reddit_content}\n\n[NOTE: {reddit_json.get('note', '')}]",
-                    format="text",
-                    source="bip_scheduler"
-                ))
+                reddit_content = reddit_json.get("post", "")
+                if reddit_content:
+                    db.add(Post(
+                        account="reddit",
+                        status="draft",
+                        hook_type=reddit_json.get("type", post_type),
+                        topic_pillar="BIP: Batched Sprint",
+                        content_text=reddit_content,
+                        format="text",
+                        source="bip_scheduler"
+                    ))
             except Exception as e:
-                logger.error(f"Failed to generate Reddit post: {e}")
+                logger.error(f"Failed to generate Reddit BIP post: {e}")
 
         db.add(AuditLog(action="BIP Scheduler", details={
             "status": "success",

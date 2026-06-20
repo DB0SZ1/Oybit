@@ -385,3 +385,16 @@ class MediaAsset(Base):
     file_size = Column(Integer, default=0)
     mime_type = Column(String(100), nullable=True)
     uploaded_at = Column(DateTime, default=datetime.utcnow)
+
+class BipState(Base):
+    """Tracks the state of the Build-in-Public 30-day journey."""
+    __tablename__ = "bip_state"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    project_name = Column(String(100), default="kronos")
+    start_date = Column(DateTime, default=datetime.utcnow)
+    current_day = Column(Integer, default=1)
+    last_post_type = Column(String(50), nullable=True)
+    total_posts = Column(Integer, default=0)
+    metrics_json = Column(JSON, nullable=True) # To store users/revenue stats for metric drops
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
