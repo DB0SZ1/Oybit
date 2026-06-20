@@ -40,11 +40,12 @@ def send_twilio_notification(post_id: str, account: str, content_text: str, dry_
         if len(message_body) > 1550:
             message_body = message_body[:1550] + "...\n(truncated)"
 
-        # Handle WhatsApp Sandbox automatically
+        # Force WhatsApp messaging
         from_number = TWILIO_PHONE_NUMBER
         to_number = USER_PHONE_NUMBER
-        if from_number == "+14155238886":
+        if not from_number.startswith("whatsapp:"):
             from_number = f"whatsapp:{from_number}"
+        if not to_number.startswith("whatsapp:"):
             to_number = f"whatsapp:{to_number}"
 
         message = client.messages.create(
