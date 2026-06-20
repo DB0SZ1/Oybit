@@ -15,7 +15,10 @@ from db.models import TrendSignal, Post, PostAnalytics
 from config import PERSONA_DIR
 from intelligence.mirofish.narrative_forecaster import run_daily_forecast
 from intelligence.opportunity_detector import detect_opportunities
-from api.pipeline import run_full_pipeline
+try:
+    from api.pipeline import run_full_pipeline
+except ImportError:
+    run_full_pipeline = None
 
 logger = logging.getLogger(__name__)
 PERSONA_PATH = os.path.join(PERSONA_DIR, "persona.md")
@@ -125,20 +128,23 @@ def _process_approved_brief(db: Session, brief):
     success_count = 0
     for platform in platforms:
         try:
-            pipeline_result = run_full_pipeline(
-                db=db,
-                topic_brief=full_brief_text,
-                platform=platform,
-                account=platform,
-                format_type="text",
-                auto_schedule=True,
-            )
-            
-            if pipeline_result.get("final_status") == "scheduled":
-                success_count += 1
-                logger.info(f"Pipeline successfully scheduled content for {platform} on trend: {brief.topic}")
+            if run_full_pipeline:
+                pipeline_result = run_full_pipeline(
+                    db=db,
+                    topic_brief=full_brief_text,
+                    platform=platform,
+                    account=platform,
+                    format_type="text",
+                    auto_schedule=True,
+                )
+                
+                if pipeline_result.get("final_status") == "scheduled":
+                    success_count += 1
+                    logger.info(f"Pipeline successfully scheduled content for {platform} on trend: {brief.topic}")
+                else:
+                    logger.warning(f"Pipeline did not finish scheduling for {platform} on trend: {brief.topic}. Status: {pipeline_result.get('final_status')}")
             else:
-                logger.warning(f"Pipeline did not finish scheduling for {platform} on trend: {brief.topic}. Status: {pipeline_result.get('final_status')}")
+                logger.warning(f"api.pipeline not available. Skipping full pipeline trigger for {platform}.")
                 
         except Exception as e:
             logger.error(f"Failed to run pipeline for {platform} on trend {brief.topic}: {e}")

@@ -84,3 +84,49 @@ async def github_webhook(request: Request, db: Session = Depends(get_db)):
     logger.info(f"Received GitHub webhook push with {len(payload['commits'])} commits.")
     
     return {"status": "success", "message": "Push acknowledged. Progress is batched and will be picked up by bip_scheduler."}
+
+from pydantic import BaseModel
+class BuildLogPayload(BaseModel):
+    summary: str
+
+@router.post("/build-log")
+async def build_log_webhook(payload: BuildLogPayload, request: Request):
+    """
+    Receives sanitized build log entries from remote standalone_watcher.py scripts.
+    """
+    secret = request.headers.get("Authorization")
+    expected_secret = f"Bearer {os.getenv('NYVORA_INTERNAL_WEBHOOK_SECRET', 'test_secret')}"
+    
+    if not secret or secret != expected_secret:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+        
+    import datetime
+    date_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    entry = f"## [{date_str}] - Remote Auto Commit\n"
+    entry += "**Tags**: #BuildInPublic #Engineering\n"
+    entry += "**Details**:\n"
+    entry += f"{payload.summary}\n\n"
+    
+    log_path = os.path.join(os.getcwd(), "BUILD_LOG.md")
+    
+    if os.path.exists(log_path):
+        with open(log_path, "r", encoding="utf-8") as f:
+            content = f.read()
+            
+        marker = "## UNPOSTED PROGRESS\n*(New entries will be automatically appended here by the Git Hook)*\n"
+        if marker in content:
+            content = content.replace(marker, marker + "\n" + entry)
+        else:
+            marker_alt = "## UNPOSTED PROGRESS"
+            content = content.replace(marker_alt, marker_alt + "\n\n" + entry)
+            
+        with open(log_path, "w", encoding="utf-8") as f:
+            f.write(content)
+            
+        # Optional: trigger bip_scheduler here immediately, or let the cron job pick it up
+        return {"status": "success", "message": "Build log appended securely."}
+    else:
+        # If no build log exists, just create it
+        with open(log_path, "w", encoding="utf-8") as f:
+            f.write(f"## UNPOSTED PROGRESS\n\n{entry}")
+        return {"status": "success", "message": "Build log created."}
