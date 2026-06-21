@@ -71,9 +71,9 @@ class SchedulerQueue:
                 db.rollback()
                 db.close()
 
-    def get_due_jobs_for_twilio(self) -> list[dict]:
+    def get_due_jobs_for_telegram(self) -> list[dict]:
         """
-        Get jobs due within the next 30 minutes for Twilio notification.
+        Get jobs due within the next 30 minutes for Telegram notification.
         """
         from datetime import timedelta
         from db.models import Post

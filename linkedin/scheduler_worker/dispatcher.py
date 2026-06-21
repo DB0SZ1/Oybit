@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 from scheduler_worker.queue import SchedulerQueue
 from publishers.dispatcher import dispatch as publisher_dispatch
-from publishers.twilio_notifier import send_twilio_notification
+from publishers.telegram_notifier import send_telegram_notification
 from db.models import Notification, Post, get_session
 
 logger = logging.getLogger(__name__)
@@ -44,12 +44,12 @@ def run_dispatch_cycle(queue: SchedulerQueue = None, dry_run: bool = False,
     if queue is None:
         queue = SchedulerQueue()
 
-    due_jobs = queue.get_due_jobs_for_twilio()
+    due_jobs = queue.get_due_jobs_for_telegram()
     if not due_jobs:
-        logger.debug("No due jobs found for Twilio notification")
+        logger.debug("No due jobs found for Telegram notification")
         return []
 
-    logger.info(f"Found {len(due_jobs)} due jobs for Twilio")
+    logger.info(f"Found {len(due_jobs)} due jobs for Telegram")
     results = []
 
     for job in due_jobs:
@@ -76,8 +76,8 @@ def run_dispatch_cycle(queue: SchedulerQueue = None, dry_run: bool = False,
             else:
                 post_data = {"format": "text", "content_text": f"Post {post_id}", "media_urls": []}
 
-            # Dispatch to Twilio instead of the actual platform
-            result = send_twilio_notification(str(post_id), account, post_data.get("content_text", ""), dry_run=dry_run)
+            # Dispatch to Telegram instead of the actual platform
+            result = send_telegram_notification(str(post_id), account, post_data.get("content_text", ""), dry_run=dry_run)
             account_result = result.get(account, {})
 
             if account_result.get("success") or account_result.get("dry_run"):
@@ -93,7 +93,7 @@ def run_dispatch_cycle(queue: SchedulerQueue = None, dry_run: bool = False,
                     queue._close_db(db)
 
                 queue.mark_done(job_id)
-                logger.info(f"Job {job_id} completed: Twilio notification sent for post {post_id} → {account}")
+                logger.info(f"Job {job_id} completed: Telegram notification sent for post {post_id} → {account}")
                 results.append({"job_id": job_id, "status": "done", "result": account_result})
             else:
                 error = account_result.get("error", "Unknown error")
