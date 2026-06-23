@@ -76,8 +76,13 @@ def run_dispatch_cycle(queue: SchedulerQueue = None, dry_run: bool = False,
             else:
                 post_data = {"format": "text", "content_text": f"Post {post_id}", "media_urls": []}
 
-            # Dispatch to Telegram instead of the actual platform
-            result = send_telegram_notification(str(post_id), account, post_data.get("content_text", ""), dry_run=dry_run)
+            # Dispatch based on account
+            if account == "linkedin":
+                result = publisher_dispatch(post_data, account=account, dry_run=dry_run)
+            else:
+                # Fallback platforms (twitter, reddit) go to Telegram
+                result = send_telegram_notification(str(post_id), account, post_data.get("content_text", ""), dry_run=dry_run)
+                
             account_result = result.get(account, {})
 
             if account_result.get("success") or account_result.get("dry_run"):

@@ -26,12 +26,10 @@ def extract_and_archive_unposted_progress() -> str:
             
         raw_progress = "\n".join([e.summary for e in entries])
         
-        # Mark as archived
-        for e in entries:
-            e.status = "archived"
-        db.commit()
-        
-        return raw_progress, None
+        # DO NOT mark as archived here! 
+        # Return the IDs so run_bip_batch_cycle can mark them archived ONLY after successful LLM generation.
+        entry_ids = [e.id for e in entries]
+        return raw_progress, entry_ids
     except Exception as e:
         logger.error(f"Failed to extract unposted progress from DB: {e}")
         return None, None
@@ -46,7 +44,7 @@ def run_bip_batch_cycle():
     """
     logger.info("Running BIP Batch Cycle...")
     
-    raw_progress, last_archived = extract_and_archive_unposted_progress()
+    raw_progress, entry_ids = extract_and_archive_unposted_progress()
     
     if not raw_progress:
         logger.info("No new unposted progress found. Skipping cycle (doing stuff only when needed).")
@@ -249,6 +247,17 @@ def run_bip_batch_cycle():
             logger.warning("BIP Post failed MiroFish gate. Left as draft. Scheduling for Twilio review.")
             SchedulerQueue(db).add_job(new_post.id, "linkedin", datetime.utcnow())
             db.commit()
+            
+        # VERY END OF SUCCESSFUL GENERATION: Now we can safely archive the logs!
+        if entry_ids:
+            from db.models import BuildLogEntry
+            logs_to_archive = db.query(BuildLogEntry).filter(BuildLogEntry.id.in_(entry_ids)).all()
+            for e in logs_to_archive:
+                e.status = "archived"
+            db.commit()
+            logger.info(f"Safely archived {len(logs_to_archive)} build log entries.")
+        
+
         
     except Exception as e:
         logger.error(f"Failed to generate BIP post: {e}")
