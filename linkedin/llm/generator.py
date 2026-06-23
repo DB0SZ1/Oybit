@@ -133,6 +133,7 @@ def call_openrouter_raw(
     max_tokens: int = 500,
     model: str = None,
     temperature: float = 0.7,
+    **kwargs
 ) -> str:
     """
     Low-level OpenRouter call that returns raw text response.
@@ -174,6 +175,7 @@ def call_openrouter_raw(
         "temperature": temperature,
         "max_tokens": max_tokens,
     }
+    payload.update(kwargs)
 
     headers = {
         "Authorization": f"Bearer {api_key}",
