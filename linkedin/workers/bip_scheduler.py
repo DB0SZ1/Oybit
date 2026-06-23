@@ -77,16 +77,11 @@ def run_bip_batch_cycle():
     
     raw_progress, last_archived = extract_and_archive_unposted_progress()
     
-    details_to_use = raw_progress
-
     if not raw_progress:
-        logger.info("No unposted progress found. Checking for archived fallback...")
-        if last_archived and last_archived.strip() and last_archived.strip() != "*(Logs that have already been posted are moved here)*":
-            logger.info("Using last archived progress for a reflection post.")
-            details_to_use = last_archived
-        else:
-            logger.info("No unposted or archived progress found. Skipping cycle.")
-            return
+        logger.info("No new unposted progress found. Skipping cycle (doing stuff only when needed).")
+        return
+
+    details_to_use = raw_progress
 
     db: Session = SessionLocal()
     try:

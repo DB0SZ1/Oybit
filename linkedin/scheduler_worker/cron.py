@@ -78,14 +78,14 @@ def run_scheduler():
     schedule.every(interval_seconds).seconds.do(safe_run_dispatch_cycle)
     
     # Run the autonomous opportunity polling every 6 hours
-    from scheduler_worker.autonomous_loop import run_opportunity_polling, run_post_verification
-    schedule.every(6).hours.do(run_opportunity_polling)
+    # from scheduler_worker.autonomous_loop import run_opportunity_polling, run_post_verification
+    # schedule.every(6).hours.do(run_opportunity_polling)
     
     # Run post verification daily
-    schedule.every().day.at("02:00").do(run_post_verification)
+    # schedule.every().day.at("02:00").do(run_post_verification)
 
     # Trigger a poll immediately on startup
-    run_opportunity_polling()
+    # run_opportunity_polling()
 
     while _running:
         schedule.run_pending()

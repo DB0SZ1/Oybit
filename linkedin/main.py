@@ -134,13 +134,13 @@ def start_worker():
     from workers.bip_scheduler import start_bip_loop
     
     # Existing loops
-    threading.Thread(target=start_mirofish_loop, daemon=True).start()
-    threading.Thread(target=start_feedback_loop, daemon=True).start()
-    threading.Thread(target=start_token_refresh_loop, daemon=True).start()
-    threading.Thread(target=start_trend_loop, daemon=True).start()
+    # threading.Thread(target=start_mirofish_loop, daemon=True).start()
+    # threading.Thread(target=start_feedback_loop, daemon=True).start()
+    # threading.Thread(target=start_token_refresh_loop, daemon=True).start()
+    # threading.Thread(target=start_trend_loop, daemon=True).start()
     
     # New Build in Public batched scheduler
-    threading.Thread(target=start_bip_loop, daemon=True).start()
+    # threading.Thread(target=start_bip_loop, daemon=True).start()
     
     # Start the Main Autonomous Scheduler (Generates & publishes posts)
     from scheduler_worker.cron import run_scheduler
