@@ -83,10 +83,6 @@ def run_bip_batch_cycle():
                 last_idx = cycle.index(state.last_post_type)
             post_type = cycle[(last_idx + 1) % len(cycle)]
             
-        state.last_post_type = post_type
-        state.total_posts += 1
-        db.commit()
-        
         logger.info(f"Determined State -> Day {day_number}, Type: {post_type}")
         
     # We have progress! Let's build a fake "latest_entry" payload for the LLM
@@ -251,6 +247,9 @@ def run_bip_batch_cycle():
             logs_to_archive = db.query(BuildLogEntry).filter(BuildLogEntry.id.in_(entry_ids)).all()
             for e in logs_to_archive:
                 e.status = "archived"
+                
+            state.last_post_type = post_type
+            state.total_posts += 1
             db.commit()
             logger.info(f"Safely archived {len(logs_to_archive)} build log entries.")
         

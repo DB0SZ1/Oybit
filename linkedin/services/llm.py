@@ -84,7 +84,6 @@ DO NOT output any metadata, JSON, or "Here is your post". Just the raw post text
     return call_openrouter_raw(
         system_prompt=system_prompt,
         prompt=user_prompt,
-        model=model,
         temperature=0.6,
         max_tokens=1500
     ).strip()
@@ -116,7 +115,6 @@ Follow the system prompt precisely and generate the JSON payload for X."""
     result_text = call_openrouter_raw(
         system_prompt=prompt_text,
         prompt=user_prompt,
-        model=model,
         temperature=0.7,
         max_tokens=1500,
         response_format={"type": "json_object"}
@@ -155,7 +153,6 @@ Follow the system prompt precisely and generate the JSON payload for Reddit."""
     result_text = call_openrouter_raw(
         system_prompt=prompt_text,
         prompt=user_prompt,
-        model=model,
         temperature=0.7,
         max_tokens=2000,
         response_format={"type": "json_object"}
