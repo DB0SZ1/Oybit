@@ -84,12 +84,11 @@ def generate_content(prompt_dict: dict, dry_run: bool = False, http_client=None)
     }
 
     models_to_try = [
-        os.getenv("OPENROUTER_DEFAULT_MODEL", "google/gemini-2.0-flash-lite-preview-02-05:free"),
-        "qwen/qwen-2.5-72b-instruct:free",
-        "meta-llama/llama-3.3-70b-instruct:free",
-        "mistralai/mistral-7b-instruct:free",
-        "google/gemma-2-9b-it:free",
-        "nvidia/llama-3.1-nemotron-70b-instruct:free"
+        os.getenv("OPENROUTER_DEFAULT_MODEL", "meta-llama/llama-3.3-70b-instruct:free"),
+        "nousresearch/hermes-3-llama-3.1-405b:free",
+        "qwen/qwen3-next-80b-a3b-instruct:free",
+        "google/gemma-4-31b-it:free",
+        "nvidia/nemotron-3-ultra-550b-a55b:free"
     ]
 
     import time
@@ -159,12 +158,11 @@ def call_openrouter_raw(
         raise ValueError("Missing OPENROUTER_API_KEY")
 
     models_to_try = [model] if model else [
-        os.getenv("OPENROUTER_DEFAULT_MODEL", "google/gemini-2.0-flash-lite-preview-02-05:free"),
-        "qwen/qwen-2.5-72b-instruct:free",
-        "meta-llama/llama-3.3-70b-instruct:free",
-        "mistralai/mistral-7b-instruct:free",
-        "google/gemma-2-9b-it:free",
-        "nvidia/llama-3.1-nemotron-70b-instruct:free"
+        os.getenv("OPENROUTER_DEFAULT_MODEL", "meta-llama/llama-3.3-70b-instruct:free"),
+        "nousresearch/hermes-3-llama-3.1-405b:free",
+        "qwen/qwen3-next-80b-a3b-instruct:free",
+        "google/gemma-4-31b-it:free",
+        "nvidia/nemotron-3-ultra-550b-a55b:free"
     ]
 
     payload = {
