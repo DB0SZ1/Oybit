@@ -84,8 +84,10 @@ def run_scheduler():
     # Run post verification daily
     # schedule.every().day.at("02:00").do(run_post_verification)
 
-    # Trigger a poll immediately on startup
-    # run_opportunity_polling()
+    # Trigger a check immediately on startup to process any unposted logs missed during downtime
+    from workers.bip_scheduler import run_bip_batch_cycle
+    import threading
+    threading.Thread(target=run_bip_batch_cycle, daemon=True).start()
 
     while _running:
         schedule.run_pending()
