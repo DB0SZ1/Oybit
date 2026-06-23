@@ -38,36 +38,17 @@ CRITICAL RULES:
     user_prompt = f"Write a new LinkedIn post focused on the following topic or trend: {topic}"
     
     try:
-        response = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "HTTP-Referer": "https://oybit.nyvora.com",
-                "Content-Type": "application/json",
-            },
-            json={
-                "model": model,
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt}
-                ],
-                "max_tokens": 800,
-                "temperature": 0.8
-            },
-            timeout=30
+        from llm.generator import call_openrouter_raw
+        content = call_openrouter_raw(
+            system_prompt=system_prompt,
+            prompt=user_prompt,
+            model=model,
+            temperature=0.8,
+            max_tokens=800
         )
-        
-        
-        response.raise_for_status()
-        data = response.json()
-        
-        content = data["choices"][0]["message"]["content"].strip()
         return content
     except Exception as e:
-        error_msg = str(e)
-        if 'response' in locals() and hasattr(response, 'text'):
-            error_msg += f" | Body: {response.text}"
-        logger.error(f"Failed to generate LLM content: {error_msg}")
+        logger.error(f"Failed to generate LLM content: {e}")
         # Fallback content if LLM fails
         return f"Just spent 4 hours fighting with {topic} and the results were unexpected. Here's what I learned building this in public... 🧵"
 
@@ -99,28 +80,14 @@ Today is Day {day_number} of 30.
 You must write a "{post_type}" post exactly following the formula defined in the system prompt for this specific type.
 DO NOT output any metadata, JSON, or "Here is your post". Just the raw post text ready to be published on LinkedIn."""
 
-    response = requests.post(
-        "https://openrouter.ai/api/v1/chat/completions",
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "HTTP-Referer": "https://oybit.nyvora.com",
-            "Content-Type": "application/json",
-        },
-        json={
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
-            "max_tokens": 1500,
-            "temperature": 0.6
-        },
-        timeout=30
-    )
-    
-    response.raise_for_status()
-    data = response.json()
-    return data["choices"][0]["message"]["content"].strip()
+    from llm.generator import call_openrouter_raw
+    return call_openrouter_raw(
+        system_prompt=system_prompt,
+        prompt=user_prompt,
+        model=model,
+        temperature=0.6,
+        max_tokens=1500
+    ).strip()
 
 
 def generate_x_bip_post(log_entry: dict, prompt_text: str, day_number: int, post_type: str) -> dict:
@@ -145,29 +112,15 @@ Today is Day {day_number} of 30.
 You must write a "{post_type}" post exactly following the formula defined in the system prompt for this specific type.
 Follow the system prompt precisely and generate the JSON payload for X."""
 
-    response = requests.post(
-        "https://openrouter.ai/api/v1/chat/completions",
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "HTTP-Referer": "https://oybit.nyvora.com",
-            "Content-Type": "application/json",
-        },
-        json={
-            "model": model,
-            "messages": [
-                {"role": "system", "content": prompt_text},
-                {"role": "user", "content": user_prompt}
-            ],
-            "response_format": {"type": "json_object"},
-            "max_tokens": 1500,
-            "temperature": 0.7
-        },
-        timeout=30
-    )
-    
-    response.raise_for_status()
-    data = response.json()
-    result_text = data["choices"][0]["message"]["content"].strip()
+    from llm.generator import call_openrouter_raw
+    result_text = call_openrouter_raw(
+        system_prompt=prompt_text,
+        prompt=user_prompt,
+        model=model,
+        temperature=0.7,
+        max_tokens=1500,
+        response_format={"type": "json_object"}
+    ).strip()
     if result_text.startswith("```json"):
         result_text = result_text[7:-3]
     elif result_text.startswith("```"):
@@ -198,29 +151,15 @@ Today is Day {day_number} of 30.
 You must write a "{post_type}" post exactly following the formula defined in the system prompt for this specific type.
 Follow the system prompt precisely and generate the JSON payload for Reddit."""
 
-    response = requests.post(
-        "https://openrouter.ai/api/v1/chat/completions",
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "HTTP-Referer": "https://oybit.nyvora.com",
-            "Content-Type": "application/json",
-        },
-        json={
-            "model": model,
-            "messages": [
-                {"role": "system", "content": prompt_text},
-                {"role": "user", "content": user_prompt}
-            ],
-            "response_format": {"type": "json_object"},
-            "max_tokens": 2000,
-            "temperature": 0.7
-        },
-        timeout=30
-    )
-    
-    response.raise_for_status()
-    data = response.json()
-    result_text = data["choices"][0]["message"]["content"].strip()
+    from llm.generator import call_openrouter_raw
+    result_text = call_openrouter_raw(
+        system_prompt=prompt_text,
+        prompt=user_prompt,
+        model=model,
+        temperature=0.7,
+        max_tokens=2000,
+        response_format={"type": "json_object"}
+    ).strip()
     if result_text.startswith("```json"):
         result_text = result_text[7:-3]
     elif result_text.startswith("```"):

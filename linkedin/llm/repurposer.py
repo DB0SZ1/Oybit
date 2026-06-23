@@ -60,35 +60,14 @@ End with a question that invites comments.]
 
 Return ONLY the 4 posts with their headers. No extra commentary."""
 
-    api_key = os.getenv("OPENROUTER_API_KEY", "")
-    if not api_key:
-        raise ValueError("Missing OPENROUTER_API_KEY")
-
-    model = os.getenv("OPENROUTER_DEFAULT_MODEL", "meta-llama/llama-4-scout")
-
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "HTTP-Referer": "https://oybit.nyvora.com",
-        "X-Title": "Oybit",
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "model": model,
-        "messages": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}
-        ],
-        "temperature": 0.7,
-        "max_tokens": 3000
-    }
-
-    client = http_client or httpx.Client(timeout=120)
-    response = client.post("https://openrouter.ai/api/v1/chat/completions",
-                           headers=headers, json=payload)
-    response.raise_for_status()
-
-    data = response.json()
-    raw_content = data["choices"][0]["message"]["content"]
+    from llm.generator import call_openrouter_raw
+    raw_content = call_openrouter_raw(
+        system_prompt=system_prompt,
+        prompt=user_prompt,
+        model=model,
+        temperature=0.7,
+        max_tokens=3000
+    )
 
     # Parse the 4 platform versions
     result = _parse_platform_slices(raw_content)

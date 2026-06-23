@@ -75,27 +75,13 @@ Output the completely updated markdown document. Do not output anything else. Do
 
     try:
         model = os.getenv("OPENROUTER_DEFAULT_MODEL", "meta-llama/llama-4-scout:free")
-        response = httpx.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "HTTP-Referer": "https://oybit.nyvora.com",
-                "X-Title": "Oybit",
-                "Content-Type": "application/json",
-            },
-            json={
-                "model": model,
-                "messages": [
-                    {"role": "system", "content": "You are an AI Persona Architect. Output only the updated raw markdown persona."},
-                    {"role": "user", "content": prompt},
-                ],
-                "temperature": 0.2,
-            },
-            timeout=120.0,
+        from llm.generator import call_openrouter_raw
+        updated_persona = call_openrouter_raw(
+            system_prompt="You are an AI Persona Architect. Output only the updated raw markdown persona.",
+            prompt=prompt,
+            model=model,
+            temperature=0.2
         )
-        response.raise_for_status()
-        
-        updated_persona = response.json()["choices"][0]["message"]["content"].strip()
         
         # Clean up if the LLM still decided to wrap it in markdown block
         import re

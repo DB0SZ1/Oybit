@@ -83,35 +83,34 @@ def generate_content(prompt_dict: dict, dry_run: bool = False, http_client=None)
         "X-Title": "Oybit"
     }
 
+    models_to_try = [
+        os.getenv("OPENROUTER_DEFAULT_MODEL", "meta-llama/llama-3.3-70b-instruct:free"),
+        "google/gemini-2.0-flash-lite-preview-02-05:free",
+        "meta-llama/llama-3.1-8b-instruct:free",
+        "huggingfaceh4/zephyr-7b-beta:free"
+    ]
+
     try:
-        max_retries = 3
-        for attempt in range(max_retries):
+        for current_model in models_to_try:
+            payload["model"] = current_model
             resp = client.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload)
             if resp.status_code == 200:
                 data = resp.json()
                 if "error" in data:
-                    logger.error(f"OpenRouter returned error payload: {data['error']}")
-                    raise Exception(f"OpenRouter Error: {data['error']}")
+                    logger.error(f"OpenRouter returned error for {current_model}: {data['error']}")
+                    continue # Try next model
                 try:
                     raw_text = data.get("choices", [{}])[0].get("message", {}).get("content", "")
                 except (IndexError, AttributeError):
                     raw_text = ""
                 return _parse_variants(raw_text)
-            elif resp.status_code == 429:
-                import time
-                retry_after = int(resp.headers.get("retry-after", 30))
-                logger.warning({"event": "openrouter_rate_limit", "retry_after": retry_after, "attempt": attempt})
-                if attempt < max_retries - 1:
-                    time.sleep(retry_after)
+            elif resp.status_code in (400, 404, 429) or resp.status_code >= 500:
+                logger.warning(f"Model {current_model} failed with {resp.status_code}, falling back to next model...")
                 continue
-            elif resp.status_code == 503:
-                logger.error({"event": "openrouter_down", "attempt": attempt})
-                # Fallback logic would go here if provided
-                raise httpx.HTTPStatusError(f"HTTP 503: {resp.text[:200]}", request=resp.request, response=resp)
             else:
                 resp.raise_for_status()
                 
-        raise Exception("OpenRouterRateLimitError: Max retries exceeded")
+        raise Exception("OpenRouter: All fallback models failed or were rate-limited.")
     except Exception as e:
         logger.error(f"OpenRouter API call failed: {e}")
         raise
@@ -147,11 +146,15 @@ def call_openrouter_raw(
     if not api_key:
         raise ValueError("Missing OPENROUTER_API_KEY")
 
-    if model is None:
-        model = os.getenv("OPENROUTER_DEFAULT_MODEL", "meta-llama/llama-4-scout:free")
+    models_to_try = [model] if model else [
+        os.getenv("OPENROUTER_DEFAULT_MODEL", "meta-llama/llama-3.3-70b-instruct:free"),
+        "google/gemini-2.0-flash-lite-preview-02-05:free",
+        "meta-llama/llama-3.1-8b-instruct:free",
+        "huggingfaceh4/zephyr-7b-beta:free"
+    ]
 
     payload = {
-        "model": model,
+        "model": models_to_try[0],
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": prompt},
@@ -167,7 +170,8 @@ def call_openrouter_raw(
     }
 
     with httpx.Client(timeout=60) as client:
-        for attempt in range(3):
+        for current_model in models_to_try:
+            payload["model"] = current_model
             resp = client.post(
                 "https://openrouter.ai/api/v1/chat/completions",
                 headers=headers,
@@ -175,37 +179,25 @@ def call_openrouter_raw(
             )
             if resp.status_code == 200:
                 data = resp.json()
-                # Check for provider error payloads (HTTP 200 but body says 502/503)
                 error_payload = data.get("error")
                 provider_code = data.get("code")
                 if error_payload or (isinstance(provider_code, int) and provider_code >= 500):
                     logger.warning(
-                        f"OpenRouter provider error (attempt {attempt+1}/3): "
+                        f"OpenRouter provider error for {current_model}: "
                         f"code={provider_code}, error={error_payload}"
                     )
-                    if attempt < 2:
-                        import time
-                        backoff = 2 ** (attempt + 1)  # 2s, 4s, 8s
-                        time.sleep(backoff)
-                        continue
-                    raise Exception(f"OpenRouter provider error after 3 retries: {data}")
+                    continue # Try next model
                 try:
                     return data.get("choices", [{}])[0].get("message", {}).get("content", "")
                 except (IndexError, AttributeError):
                     return ""
-            elif resp.status_code == 429:
-                import time
-                import random
-                retry_after = int(resp.headers.get("retry-after", 30))
-                jitter = random.randint(1, 5)
-                logger.warning("OpenRouter rate limit", extra={"retry_after": retry_after, "jitter": jitter, "attempt": attempt})
-                if attempt < 2:
-                    time.sleep(retry_after + jitter)
+            elif resp.status_code in (400, 404, 429) or resp.status_code >= 500:
+                logger.warning(f"Model {current_model} failed with {resp.status_code}, falling back...")
                 continue
             else:
                 resp.raise_for_status()
 
-    raise Exception("OpenRouter: max retries exceeded")
+    raise Exception("OpenRouter: All fallback models failed or were rate-limited.")
 
 
 def call_openrouter(system_prompt: str, user_prompt: str, **kwargs) -> dict:

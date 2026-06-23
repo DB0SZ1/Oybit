@@ -98,23 +98,14 @@ def _get_ai_reactions(agents_batch: list, narrative_text: str, platform: str) ->
             f'Never omit the key name. Example: {{"agent_id": "agent_001", "reaction": ...}}.'
         )
 
-        resp = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "HTTP-Referer": "https://oybit.nyvora.com",
-                "Content-Type": "application/json",
-            },
-            json={
-                "model": model,
-                "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": 400,
-                "temperature": 0.7
-            },
-            timeout=30
+        from llm.generator import call_openrouter_raw
+        result = call_openrouter_raw(
+            system_prompt="You are simulating social media users.",
+            prompt=prompt,
+            model=model,
+            temperature=0.7,
+            max_tokens=400
         )
-        resp.raise_for_status()
-        result = resp.json()["choices"][0]["message"]["content"]
 
         # Parse JSON from response
         # Handle cases where AI wraps in markdown code blocks

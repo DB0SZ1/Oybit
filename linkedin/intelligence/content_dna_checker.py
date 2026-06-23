@@ -106,27 +106,14 @@ Respond with ONLY a JSON object (no markdown, no explanation):
 
     try:
         model = os.getenv("OPENROUTER_DEFAULT_MODEL", "meta-llama/llama-4-scout:free")
-        response = httpx.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "HTTP-Referer": "https://oybit.nyvora.com",
-                "X-Title": "Oybit",
-                "Content-Type": "application/json",
-            },
-            json={
-                "model": model,
-                "messages": [
-                    {"role": "system", "content": "You are a content analysis expert. Respond only with valid JSON."},
-                    {"role": "user", "content": prompt},
-                ],
-                "temperature": 0.1,
-                "max_tokens": 200,
-            },
-            timeout=30.0,
+        from llm.generator import call_openrouter_raw
+        content = call_openrouter_raw(
+            system_prompt="You are a content analysis expert. Respond only with valid JSON.",
+            prompt=prompt,
+            model=model,
+            temperature=0.1,
+            max_tokens=200
         )
-        response.raise_for_status()
-        content = response.json()["choices"][0]["message"]["content"].strip()
         # Clean markdown fences if present
         content = re.sub(r'^```(?:json)?\s*', '', content)
         content = re.sub(r'\s*```$', '', content)

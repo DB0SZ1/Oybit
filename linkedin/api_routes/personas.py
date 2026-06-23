@@ -229,26 +229,14 @@ _No data yet. System will update after first 14 days of posting._
     user_prompt = f"Build the persona.md from these onboarding answers:\n\n{qa_text}"
 
     try:
-        response = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "HTTP-Referer": "https://oybit.nyvora.com",
-                "Content-Type": "application/json",
-            },
-            json={
-                "model": model,
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt}
-                ],
-                "max_tokens": 2000,
-                "temperature": 0.3
-            },
-            timeout=60
+        from llm.generator import call_openrouter_raw
+        persona_md = call_openrouter_raw(
+            system_prompt=system_prompt,
+            prompt=user_prompt,
+            model=model,
+            temperature=0.3,
+            max_tokens=2000
         )
-        response.raise_for_status()
-        persona_md = response.json()["choices"][0]["message"]["content"].strip()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"LLM generation failed: {str(e)}")
 

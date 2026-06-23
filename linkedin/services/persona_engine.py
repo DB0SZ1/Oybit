@@ -12,38 +12,17 @@ def _call_openrouter(system_prompt: str, user_prompt: str) -> str:
     """Helper to call OpenRouter for persona generation."""
     api_key = os.getenv("OPENROUTER_API_KEY")
     model = os.getenv("OPENROUTER_DEFAULT_MODEL", "meta-llama/llama-3.3-70b-instruct:free")
-    
-    if not api_key:
-        raise ValueError("OPENROUTER_API_KEY is not set.")
-        
-    response = requests.post(
-        "https://openrouter.ai/api/v1/chat/completions",
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "HTTP-Referer": "https://oybit.nyvora.com",
-            "Content-Type": "application/json",
-        },
-        json={
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
-            "max_tokens": 1500,
-            "temperature": 0.5
-        },
-        timeout=60
-    )
-    
+    from llm.generator import call_openrouter_raw
     try:
-        response.raise_for_status()
-        data = response.json()
-        return data["choices"][0]["message"]["content"].strip()
+        return call_openrouter_raw(
+            system_prompt=system_prompt,
+            prompt=user_prompt,
+            model=model,
+            temperature=0.5,
+            max_tokens=1500
+        )
     except Exception as e:
-        error_msg = str(e)
-        if hasattr(response, 'text'):
-            error_msg += f" | Body: {response.text}"
-        logger.error(f"Persona Engine LLM failed: {error_msg}")
+        logger.error(f"Persona Engine LLM failed: {e}")
         raise
 
 def generate_initial_persona(answers_dict: dict) -> str:
