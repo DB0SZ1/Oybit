@@ -109,33 +109,23 @@ async def build_log_webhook(payload: BuildLogPayload, request: Request, backgrou
     entry += "**Details**:\n"
     entry += f"{payload.summary}\n\n"
     
-    log_path = os.path.join(os.getcwd(), "BUILD_LOG.md")
+    from db.session import SessionLocal
+    from db.models import BuildLogEntry
+
+    db = SessionLocal()
+    try:
+        new_entry = BuildLogEntry(summary=entry, status="unposted")
+        db.add(new_entry)
+        db.commit()
+    except Exception as e:
+        logger.error(f"Failed to save webhook to DB: {e}")
+        db.rollback()
+        raise
+    finally:
+        db.close()
+        
+    # Trigger the LLM generator immediately in the background instead of waiting for the schedule!
+    from workers.bip_scheduler import run_bip_batch_cycle
+    background_tasks.add_task(run_bip_batch_cycle)
     
-    if os.path.exists(log_path):
-        with open(log_path, "r", encoding="utf-8") as f:
-            content = f.read()
-            
-        marker = "## UNPOSTED PROGRESS\n*(New entries will be automatically appended here by the Git Hook)*\n"
-        if marker in content:
-            content = content.replace(marker, marker + "\n" + entry)
-        else:
-            marker_alt = "## UNPOSTED PROGRESS"
-            content = content.replace(marker_alt, marker_alt + "\n\n" + entry)
-            
-        with open(log_path, "w", encoding="utf-8") as f:
-            f.write(content)
-            
-        # Trigger the LLM generator immediately in the background instead of waiting for the schedule!
-        from workers.bip_scheduler import run_bip_batch_cycle
-        background_tasks.add_task(run_bip_batch_cycle)
-        
-        return {"status": "success", "message": "Build log appended. LLM has been triggered in the background to generate posts."}
-    else:
-        # If no build log exists, just create it
-        with open(log_path, "w", encoding="utf-8") as f:
-            f.write(f"## UNPOSTED PROGRESS\n\n{entry}")
-            
-        from workers.bip_scheduler import run_bip_batch_cycle
-        background_tasks.add_task(run_bip_batch_cycle)
-        
-        return {"status": "success", "message": "Build log created. LLM has been triggered in the background."}
+    return {"status": "success", "message": "Build log appended to database. LLM has been triggered in the background to generate posts."}

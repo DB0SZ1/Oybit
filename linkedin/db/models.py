@@ -58,6 +58,16 @@ class SimulationLogEntry(Base):
     appended_at = Column(DateTime, default=datetime.utcnow)
 
 
+class BuildLogEntry(Base):
+    """Persistent tracking for webhooks instead of ephemeral BUILD_LOG.md"""
+    __tablename__ = "build_log_entries"
+
+    id = Column(Integer, primary_key=True, index=True)
+    summary = Column(Text, nullable=False)
+    status = Column(String(20), default="unposted") # 'unposted' or 'archived'
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
 class PatternDB(Base):
     __tablename__ = "pattern_db"
 

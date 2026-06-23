@@ -14,58 +14,29 @@ BUILD_LOG_PATH = os.path.join(os.getcwd(), "BUILD_LOG.md")
 
 def extract_and_archive_unposted_progress() -> str:
     """
-    Reads the UNPOSTED PROGRESS section, extracts the text, and moves it to ARCHIVED PROGRESS.
-    Returns the extracted text, or None if empty.
+    Reads unposted progress from the BuildLogEntry PostgreSQL table, marks them as archived, and returns the combined text.
+    Returns (raw_progress, last_archived) tuple.
     """
-    if not os.path.exists(BUILD_LOG_PATH):
-        return None
-
-    with open(BUILD_LOG_PATH, "r", encoding="utf-8") as f:
-        content = f.read()
-
-    unposted_marker = "## UNPOSTED PROGRESS"
-    archived_marker = "## ARCHIVED PROGRESS"
-    
-    if unposted_marker not in content or archived_marker not in content:
-        return None
+    from db.models import BuildLogEntry
+    db = SessionLocal()
+    try:
+        entries = db.query(BuildLogEntry).filter(BuildLogEntry.status == "unposted").order_by(BuildLogEntry.created_at.asc()).all()
+        if not entries:
+            return None, None
+            
+        raw_progress = "\n".join([e.summary for e in entries])
         
-    parts = content.split(unposted_marker, 1)
-    top_half = parts[0]
-    bottom_half = parts[1]
-    
-    unposted_parts = bottom_half.split(archived_marker, 1)
-    unposted_content = unposted_parts[0].strip()
-    archived_content = unposted_parts[1].strip() if len(unposted_parts) > 1 else ""
-    
-    # Check if there is actual content beyond the placeholder text
-    clean_unposted = re.sub(r'^\*\(.*?\)\*', '', unposted_content, flags=re.MULTILINE).strip()
-    
-    # Extract last archived entry as fallback
-    last_archived = None
-    if archived_content:
-        # Most recent archived is usually at the top
-        archived_entries = re.split(r'(?m)^##\s+\[', archived_content)
-        if len(archived_entries) > 1:
-            last_archived = "## [" + archived_entries[1].split("---")[0].strip()
-        else:
-            last_archived = archived_content.split("---")[0].strip()
-
-    if not clean_unposted:
-        return None, last_archived
+        # Mark as archived
+        for e in entries:
+            e.status = "archived"
+        db.commit()
         
-    # Build the new file content: move the unposted stuff down to archive
-    new_content = (
-        top_half + 
-        unposted_marker + "\n*(New entries will be automatically appended here by the Git Hook)*\n\n\n" +
-        archived_marker + "\n" +
-        clean_unposted + "\n\n---\n\n" +
-        archived_content
-    )
-    
-    with open(BUILD_LOG_PATH, "w", encoding="utf-8") as f:
-        f.write(new_content)
-        
-    return clean_unposted, last_archived
+        return raw_progress, None
+    except Exception as e:
+        logger.error(f"Failed to extract unposted progress from DB: {e}")
+        return None, None
+    finally:
+        db.close()
 
 
 def run_bip_batch_cycle():
