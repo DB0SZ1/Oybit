@@ -88,7 +88,8 @@ def generate_content(prompt_dict: dict, dry_run: bool = False, http_client=None)
         "qwen/qwen-2.5-72b-instruct:free",
         "meta-llama/llama-3.3-70b-instruct:free",
         "mistralai/mistral-7b-instruct:free",
-        "google/gemma-2-9b-it:free"
+        "google/gemma-2-9b-it:free",
+        "nvidia/llama-3.1-nemotron-70b-instruct:free"
     ]
 
     import time
@@ -162,7 +163,8 @@ def call_openrouter_raw(
         "qwen/qwen-2.5-72b-instruct:free",
         "meta-llama/llama-3.3-70b-instruct:free",
         "mistralai/mistral-7b-instruct:free",
-        "google/gemma-2-9b-it:free"
+        "google/gemma-2-9b-it:free",
+        "nvidia/llama-3.1-nemotron-70b-instruct:free"
     ]
 
     payload = {
