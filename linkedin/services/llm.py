@@ -53,7 +53,7 @@ CRITICAL RULES:
         return f"Just spent 4 hours fighting with {topic} and the results were unexpected. Here's what I learned building this in public... 🧵"
 
 
-def generate_build_in_public_post(log_entry: dict, persona_text: str, day_number: int, post_type: str) -> str:
+def generate_build_in_public_post(log_entry: dict, persona_text: str, day_number: int, post_type: str, is_first_post_today: bool = True) -> str:
     """
     Generates a deeply contextual Build-in-Public post for LinkedIn using the new strategy.
     """
@@ -83,6 +83,11 @@ DO NOT output any metadata, JSON, or "Here is your post". Just the raw post text
     if day_number == 4:
         user_prompt += "\n\nCRITICAL RULE FOR DAY 4: Since we skipped posting for the first 3 days, you MUST weave in a brief, natural re-introduction into this post. Briefly summarize who I am, what Kronos is, who it helps (target audience), and what we are trying to achieve, so new readers aren't completely lost jumping into the middle of the story."
 
+    if not is_first_post_today:
+        user_prompt += "\n\nCRITICAL RULE FOR MULTIPLE POSTS TODAY: This is NOT the first post of the day. DO NOT start the post with 'Day X.' Instead, start it naturally as a progress update (e.g. 'Update:', or just diving into the content). Do not repetitively mention the day number."
+
+    user_prompt += "\n\nCRITICAL CONFIDENTIALITY RULE: NEVER mention specific file names (e.g., bip_scheduler.py, cron.py), internal raw variable names, or expose confidential internal architecture. Speak abstractly about the concepts, features, and problems."
+
     from llm.generator import call_openrouter_raw
     return call_openrouter_raw(
         system_prompt=system_prompt,
@@ -92,7 +97,7 @@ DO NOT output any metadata, JSON, or "Here is your post". Just the raw post text
     ).strip()
 
 
-def generate_x_bip_post(log_entry: dict, prompt_text: str, day_number: int, post_type: str) -> dict:
+def generate_x_bip_post(log_entry: dict, prompt_text: str, day_number: int, post_type: str, is_first_post_today: bool = True) -> dict:
     """
     Generates an X (Twitter) Build-in-Public post using the detailed system prompt.
     Returns a JSON dict.
@@ -117,6 +122,11 @@ Follow the system prompt precisely and generate the JSON payload for X."""
     if day_number == 4:
         user_prompt += "\n\nCRITICAL RULE FOR DAY 4: Since we skipped posting for the first 3 days, you MUST weave in a brief, natural re-introduction into this thread. Briefly summarize who I am, what Kronos is, who it helps (target audience), and what we are trying to achieve, so new readers aren't completely lost jumping into the middle of the story."
 
+    if not is_first_post_today:
+        user_prompt += "\n\nCRITICAL RULE FOR MULTIPLE POSTS TODAY: This is NOT the first post of the day. DO NOT start the thread with 'Day X.' Instead, start it naturally as a progress update. Do not repetitively mention the day number."
+
+    user_prompt += "\n\nCRITICAL CONFIDENTIALITY RULE: NEVER mention specific file names (e.g., bip_scheduler.py), internal raw variable names, or expose confidential internal architecture. Speak abstractly about the concepts, features, and problems."
+
     from llm.generator import call_openrouter_raw
     result_text = call_openrouter_raw(
         system_prompt=prompt_text,
@@ -133,7 +143,7 @@ Follow the system prompt precisely and generate the JSON payload for X."""
     return json.loads(result_text.strip())
 
 
-def generate_reddit_bip_post(log_entry: dict, prompt_text: str, day_number: int, post_type: str) -> dict:
+def generate_reddit_bip_post(log_entry: dict, prompt_text: str, day_number: int, post_type: str, is_first_post_today: bool = True) -> dict:
     """
     Generates a Reddit Build-in-Public post using the detailed system prompt.
     Returns a JSON dict.
@@ -157,6 +167,11 @@ Follow the system prompt precisely and generate the JSON payload for Reddit."""
 
     if day_number == 4:
         user_prompt += "\n\nCRITICAL RULE FOR DAY 4: Since we skipped posting for the first 3 days, you MUST weave in a brief, natural re-introduction into this post. Briefly summarize who I am, what Kronos is, who it helps (target audience), and what we are trying to achieve, so new readers aren't completely lost jumping into the middle of the story."
+
+    if not is_first_post_today:
+        user_prompt += "\n\nCRITICAL RULE FOR MULTIPLE POSTS TODAY: This is NOT the first post of the day. DO NOT start the post with 'Day X.' Instead, start it naturally as a progress update. Do not repetitively mention the day number."
+
+    user_prompt += "\n\nCRITICAL CONFIDENTIALITY RULE: NEVER mention specific file names (e.g., bip_scheduler.py), internal raw variable names, or expose confidential internal architecture. Speak abstractly about the concepts, features, and problems."
 
     from llm.generator import call_openrouter_raw
     result_text = call_openrouter_raw(

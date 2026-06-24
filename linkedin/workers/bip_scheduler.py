@@ -68,6 +68,17 @@ def run_bip_batch_cycle():
         days_diff = (datetime.utcnow() - state.start_date).days
         day_number = max(1, days_diff + 1)
         state.current_day = day_number
+
+        from db.models import Post
+        today_start = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+        today_posts_count = db.query(Post).filter(Post.created_at >= today_start).count()
+        
+        # 4 updates * 3 platforms = 12 post entries limit
+        if today_posts_count >= 12:
+            logger.info("Daily post limit (4 updates) reached. Leaving progress as unposted for tomorrow.")
+            return
+            
+        is_first_post_today = (today_posts_count == 0)
         
         # Determine Post Type
         post_type = "The Update"
@@ -104,7 +115,8 @@ def run_bip_batch_cycle():
             log_entry=log_entry, 
             persona_text=persona_text, 
             day_number=day_number, 
-            post_type=post_type
+            post_type=post_type,
+            is_first_post_today=is_first_post_today
         )
         
         new_post = Post(
@@ -139,7 +151,8 @@ def run_bip_batch_cycle():
                     log_entry=log_entry, 
                     prompt_text=x_prompt_text,
                     day_number=day_number,
-                    post_type=post_type
+                    post_type=post_type,
+                    is_first_post_today=is_first_post_today
                 )
                 if x_json.get("is_thread") and x_json.get("thread_posts"):
                     x_content = "\n\n---\n\n".join(x_json["thread_posts"])
@@ -174,7 +187,8 @@ def run_bip_batch_cycle():
                     log_entry=log_entry, 
                     prompt_text=reddit_prompt_text,
                     day_number=day_number,
-                    post_type=post_type
+                    post_type=post_type,
+                    is_first_post_today=is_first_post_today
                 )
                 
                 reddit_content = reddit_json.get("post", "")
