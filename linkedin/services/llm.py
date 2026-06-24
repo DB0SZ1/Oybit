@@ -80,6 +80,9 @@ Today is Day {day_number} of 30.
 You must write a "{post_type}" post exactly following the formula defined in the system prompt for this specific type.
 DO NOT output any metadata, JSON, or "Here is your post". Just the raw post text ready to be published on LinkedIn."""
 
+    if day_number == 4:
+        user_prompt += "\n\nCRITICAL RULE FOR DAY 4: Since we skipped posting for the first 3 days, you MUST weave in a brief, natural re-introduction into this post. Briefly summarize who I am, what Kronos is, who it helps (target audience), and what we are trying to achieve, so new readers aren't completely lost jumping into the middle of the story."
+
     from llm.generator import call_openrouter_raw
     return call_openrouter_raw(
         system_prompt=system_prompt,
@@ -110,6 +113,9 @@ INSTRUCTIONS:
 Today is Day {day_number} of 30.
 You must write a "{post_type}" post exactly following the formula defined in the system prompt for this specific type.
 Follow the system prompt precisely and generate the JSON payload for X."""
+
+    if day_number == 4:
+        user_prompt += "\n\nCRITICAL RULE FOR DAY 4: Since we skipped posting for the first 3 days, you MUST weave in a brief, natural re-introduction into this thread. Briefly summarize who I am, what Kronos is, who it helps (target audience), and what we are trying to achieve, so new readers aren't completely lost jumping into the middle of the story."
 
     from llm.generator import call_openrouter_raw
     result_text = call_openrouter_raw(
@@ -148,6 +154,9 @@ INSTRUCTIONS:
 Today is Day {day_number} of 30.
 You must write a "{post_type}" post exactly following the formula defined in the system prompt for this specific type.
 Follow the system prompt precisely and generate the JSON payload for Reddit."""
+
+    if day_number == 4:
+        user_prompt += "\n\nCRITICAL RULE FOR DAY 4: Since we skipped posting for the first 3 days, you MUST weave in a brief, natural re-introduction into this post. Briefly summarize who I am, what Kronos is, who it helps (target audience), and what we are trying to achieve, so new readers aren't completely lost jumping into the middle of the story."
 
     from llm.generator import call_openrouter_raw
     result_text = call_openrouter_raw(
