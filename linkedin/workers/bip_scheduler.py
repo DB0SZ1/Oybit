@@ -179,7 +179,8 @@ def run_bip_batch_cycle():
                 logger.error(f"Failed to generate X post: {e}")
 
         # Reddit Post
-        if reddit_prompt_text:
+        # We cap Reddit to exactly 1 post per day (the first update) to prevent new accounts from being shadowbanned for spam.
+        if reddit_prompt_text and is_first_post_today:
             logger.info("Sending batched progress to LLM for Reddit...")
             try:
                 from services.llm import generate_reddit_bip_post
