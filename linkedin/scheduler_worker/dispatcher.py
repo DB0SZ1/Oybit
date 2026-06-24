@@ -74,7 +74,21 @@ def run_dispatch_cycle(queue: SchedulerQueue = None, dry_run: bool = False,
             if post_data_fetcher:
                 post_data = post_data_fetcher(post_id)
             else:
-                post_data = {"format": "text", "content_text": f"Post {post_id}", "media_urls": []}
+                from db.session import SessionLocal
+                from db.models import Post
+                db_session = SessionLocal()
+                try:
+                    post = db_session.query(Post).filter(Post.id == post_id).first()
+                    if post:
+                        post_data = {
+                            "format": post.format,
+                            "content_text": post.content_text,
+                            "media_urls": []
+                        }
+                    else:
+                        post_data = {"format": "text", "content_text": f"Post {post_id}", "media_urls": []}
+                finally:
+                    db_session.close()
 
             # Dispatch based on account
             if account == "linkedin":
