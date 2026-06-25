@@ -80,9 +80,6 @@ Today is Day {day_number} of 30.
 You must write a "{post_type}" post exactly following the formula defined in the system prompt for this specific type.
 DO NOT output any metadata, JSON, or "Here is your post". Just the raw post text ready to be published on LinkedIn."""
 
-    if day_number == 4:
-        user_prompt += "\n\nCRITICAL RULE FOR DAY 4: Since we skipped posting for the first 3 days, you MUST weave in a brief, natural re-introduction into this post. Briefly summarize who I am, what Kronos is, who it helps (target audience), and what we are trying to achieve, so new readers aren't completely lost jumping into the middle of the story."
-
     if not is_first_post_today:
         user_prompt += "\n\nCRITICAL RULE FOR MULTIPLE POSTS TODAY: This is NOT the first post of the day. You MUST start the post with 'Day {day_number}: Update' or 'Day {day_number} Update:'. Do not just say 'Day {day_number}.' by itself, as that implies it is the first anchor post of the day. Make it clear this is a subsequent update."
 
@@ -119,8 +116,8 @@ Today is Day {day_number} of 30.
 You must write a "{post_type}" post exactly following the formula defined in the system prompt for this specific type.
 Follow the system prompt precisely and generate the JSON payload for X."""
 
-    if day_number == 4:
-        user_prompt += "\n\nCRITICAL RULE FOR DAY 4: Since we skipped posting for the first 3 days, you MUST weave in a brief, natural re-introduction into this thread. Briefly summarize who I am, what Kronos is, who it helps (target audience), and what we are trying to achieve, so new readers aren't completely lost jumping into the middle of the story."
+    if day_number == 5:
+        user_prompt += "\n\nCRITICAL RULE: This is our VERY FIRST post on X (Twitter), even though it is Day 5. You MUST include a summary of what the product is (Kronos), what we're building for, the problem it solves, and a brief recap of Day 1 to Day 4 to catch the audience up! Make sure this context is seamlessly woven into the thread."
 
     if not is_first_post_today:
         user_prompt += "\n\nCRITICAL RULE FOR MULTIPLE POSTS TODAY: This is NOT the first post of the day. You MUST start the thread with 'Day {day_number}: Update' or 'Day {day_number} Update:'. Do not just say 'Day {day_number}.' by itself. Make it clear this is a subsequent update."
@@ -165,8 +162,8 @@ Today is Day {day_number} of 30.
 You must write a "{post_type}" post exactly following the formula defined in the system prompt for this specific type.
 Follow the system prompt precisely and generate the JSON payload for Reddit."""
 
-    if day_number == 4:
-        user_prompt += "\n\nCRITICAL RULE FOR DAY 4: Since we skipped posting for the first 3 days, you MUST weave in a brief, natural re-introduction into this post. Briefly summarize who I am, what Kronos is, who it helps (target audience), and what we are trying to achieve, so new readers aren't completely lost jumping into the middle of the story."
+    if day_number == 5:
+        user_prompt += "\n\nCRITICAL RULE: This is our VERY FIRST post on Reddit, even though it is Day 5. You MUST include a summary of what the product is (Kronos), what we're building for, the problem it solves, and a brief recap of Day 1 to Day 4 to catch the audience up! Make sure this context is seamlessly woven into the post."
 
     if not is_first_post_today:
         user_prompt += "\n\nCRITICAL RULE FOR MULTIPLE POSTS TODAY: This is NOT the first post of the day. You MUST start the post with 'Day {day_number}: Update' or 'Day {day_number} Update:'. Do not just say 'Day {day_number}.' by itself. Make it clear this is a subsequent update."
