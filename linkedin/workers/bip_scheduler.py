@@ -73,11 +73,6 @@ def run_bip_batch_cycle():
         today_start = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
         today_posts_count = db.query(Post).filter(Post.created_at >= today_start).count()
         
-        # 4 updates * 3 platforms = 12 post entries limit
-        if today_posts_count >= 12:
-            logger.info("Daily post limit (4 updates) reached. Leaving progress as unposted for tomorrow.")
-            return
-            
         is_first_post_today = (today_posts_count == 0)
         
         # Determine Post Type

@@ -84,7 +84,7 @@ DO NOT output any metadata, JSON, or "Here is your post". Just the raw post text
         user_prompt += "\n\nCRITICAL RULE FOR DAY 4: Since we skipped posting for the first 3 days, you MUST weave in a brief, natural re-introduction into this post. Briefly summarize who I am, what Kronos is, who it helps (target audience), and what we are trying to achieve, so new readers aren't completely lost jumping into the middle of the story."
 
     if not is_first_post_today:
-        user_prompt += "\n\nCRITICAL RULE FOR MULTIPLE POSTS TODAY: This is NOT the first post of the day. DO NOT start the post with 'Day X.' Instead, start it naturally as a progress update (e.g. 'Update:', or just diving into the content). Do not repetitively mention the day number."
+        user_prompt += "\n\nCRITICAL RULE FOR MULTIPLE POSTS TODAY: This is NOT the first post of the day. You MUST start the post with 'Day {day_number}: Update' or 'Day {day_number} Update:'. Do not just say 'Day {day_number}.' by itself, as that implies it is the first anchor post of the day. Make it clear this is a subsequent update."
 
     user_prompt += "\n\nCRITICAL CONFIDENTIALITY RULE: NEVER mention specific file names (e.g., bip_scheduler.py, cron.py), internal raw variable names, or expose confidential internal architecture. Speak abstractly about the concepts, features, and problems."
 
@@ -123,7 +123,7 @@ Follow the system prompt precisely and generate the JSON payload for X."""
         user_prompt += "\n\nCRITICAL RULE FOR DAY 4: Since we skipped posting for the first 3 days, you MUST weave in a brief, natural re-introduction into this thread. Briefly summarize who I am, what Kronos is, who it helps (target audience), and what we are trying to achieve, so new readers aren't completely lost jumping into the middle of the story."
 
     if not is_first_post_today:
-        user_prompt += "\n\nCRITICAL RULE FOR MULTIPLE POSTS TODAY: This is NOT the first post of the day. DO NOT start the thread with 'Day X.' Instead, start it naturally as a progress update. Do not repetitively mention the day number."
+        user_prompt += "\n\nCRITICAL RULE FOR MULTIPLE POSTS TODAY: This is NOT the first post of the day. You MUST start the thread with 'Day {day_number}: Update' or 'Day {day_number} Update:'. Do not just say 'Day {day_number}.' by itself. Make it clear this is a subsequent update."
 
     user_prompt += "\n\nCRITICAL CONFIDENTIALITY RULE: NEVER mention specific file names (e.g., bip_scheduler.py), internal raw variable names, or expose confidential internal architecture. Speak abstractly about the concepts, features, and problems."
 
@@ -169,7 +169,7 @@ Follow the system prompt precisely and generate the JSON payload for Reddit."""
         user_prompt += "\n\nCRITICAL RULE FOR DAY 4: Since we skipped posting for the first 3 days, you MUST weave in a brief, natural re-introduction into this post. Briefly summarize who I am, what Kronos is, who it helps (target audience), and what we are trying to achieve, so new readers aren't completely lost jumping into the middle of the story."
 
     if not is_first_post_today:
-        user_prompt += "\n\nCRITICAL RULE FOR MULTIPLE POSTS TODAY: This is NOT the first post of the day. DO NOT start the post with 'Day X.' Instead, start it naturally as a progress update. Do not repetitively mention the day number."
+        user_prompt += "\n\nCRITICAL RULE FOR MULTIPLE POSTS TODAY: This is NOT the first post of the day. You MUST start the post with 'Day {day_number}: Update' or 'Day {day_number} Update:'. Do not just say 'Day {day_number}.' by itself. Make it clear this is a subsequent update."
 
     user_prompt += "\n\nCRITICAL CONFIDENTIALITY RULE: NEVER mention specific file names (e.g., bip_scheduler.py), internal raw variable names, or expose confidential internal architecture. Speak abstractly about the concepts, features, and problems."
 
