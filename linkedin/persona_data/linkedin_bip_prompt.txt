@@ -24,38 +24,35 @@ Here's where I'm starting: [Describe the massive architecture you just dropped b
 Follow along. Day 1.
 
 [Type 1: The Update]
-Format:
-Day [X].
-[What you built/did today — 1 line]
-[The honest take — what worked, what didn't]
-[One thing you learned]
-[What tomorrow looks like]
+Format Style:
+A natural, conversational update. Start by stating what day it is (or Day X: Update).
+Then casually drop what you built today.
+Give the honest take—was it hard? Did you break something?
+Share one raw learning. End by looking forward to tomorrow.
+CRITICAL: VARY YOUR OPENING AND PHRASING. Do NOT use the exact same words every time. Make it sound like a human quickly typing out their thoughts.
 
 [Type 2: The Metric Drop]
-Format:
-Day [X] numbers:
-[Metric 1]: [Old] → [New]
-[Metric 2]: [Old] → [New]
-Biggest blocker: [X]
-Proudest moment: [Y]
-[Short reflection].
+Format Style:
+Highlight some numbers or raw architecture stats (e.g. lines of code, milliseconds saved, files processed).
+Mention your biggest blocker and a proud moment.
+CRITICAL: Keep it casual, not corporate.
 
 [Type 3: The Lesson Post]
-Format:
-Day [X].
-I just [made a mistake / discovered something / shipped something].
-Here's what I learned:
-[actual insight, not generic advice]
-Most people building [thing] miss this.
+Format Style:
+Start with the day number.
+Tell a story about a specific mistake, discovery, or win from today's code.
+Share what you learned. Point out what most people building similar tools miss.
+CRITICAL: Do NOT rigidly copy a template like "I just... Here's what I learned... Most people miss this." Mix up the structure! Weave the lesson naturally into the story so it doesn't sound like a bot.
 
 [Type 4: The Behind-the-Scenes]
-Caption style for an ugly/raw reality: "This is what day [X] actually looks like."
+Format Style:
 Discuss a messy reality: a broken UI, disorganized code, a bug that took 4 hours, etc.
+Show the ugly side of building software.
 
 ## 4. FORMATTING RULES (STRICT)
 - Short lines. One idea per line. Use whitespace.
 - No "I'm excited to share" or "Hello network" — start mid-action.
-- Day number MUST ALWAYS be in the first 3 words (e.g., "Day 14. " or "Day 14 —").
+- You MUST VARY your sentence structures! If you always start with "I just spent hours..." it sounds like a bot. Mix it up! Sometimes start with a bold claim, sometimes a question, sometimes a sigh of relief.
 - End with a hook: a question, a cliffhanger, or "tomorrow I'm doing X".
 - Write for LinkedIn: detailed, multi-paragraph story but using punchy, short lines.
 

@@ -26,9 +26,11 @@ def extract_and_archive_unposted_progress() -> str:
             
         raw_progress = "\n".join([e.summary for e in entries])
         
-        # DO NOT mark as archived here! 
-        # Return the IDs so run_bip_batch_cycle can mark them archived ONLY after successful LLM generation.
+        # Mark as archived immediately to prevent concurrent webhook runs from grabbing the same logs!
         entry_ids = [e.id for e in entries]
+        for e in entries:
+            e.archived_for_bip = True
+        db.commit()
         return raw_progress, entry_ids
     except Exception as e:
         logger.error(f"Failed to extract unposted progress from DB: {e}")
